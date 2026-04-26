@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GewinnspielSchweiz – Bald sind wir da!</title>
+  <meta name="description" content="Alle Schweizer Gewinnspiele an einem Ort." />
+
+  <style>
+    @font-face {
+      font-display: block; font-family: Roboto;
+      src: url(https://assets.brevo.com/font/Roboto/Latin/normal/normal/7529907e9eaf8ebb5220c5f9850e3811.woff2) format("woff2")
+    }
+    #sib-container input::placeholder { font-family: Helvetica, sans-serif; color: #aaa; }
+  </style>
+  <link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #D52B1E;
+      --red-hover: #b82318;
+    }
+
+    html, body {
+      height: 100%;
+      background: #ffffff;
+      color: #111;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 20px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #fff0ef;
+      border: 1px solid rgba(213,43,30,0.3);
+      color: var(--red);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 6px 18px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: up 0.6s ease 0.1s forwards;
+    }
+
+    h1 {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: clamp(28px, 5.5vw, 56px);
+      line-height: 1.15;
+      color: #000;
+      margin-bottom: 32px;
+      max-width: 520px;
+      opacity: 0;
+      animation: up 0.6s ease 0.25s forwards;
+    }
+
+    h1 span { color: var(--red); }
+
+    .form-wrap {
+      width: 100%;
+      max-width: 440px;
+      opacity: 0;
+      animation: up 0.6s ease 0.4s forwards;
+    }
+
+    .sib-form { background: transparent !important; padding: 0 !important; }
+
+    #sib-container {
+      background: #fff8f8 !important;
+      border: 1.5px solid rgba(213,43,30,0.2) !important;
+      border-radius: 20px !important;
+      padding: 24px !important;
+      max-width: 100% !important;
+    }
+
+    #sib-container input.input {
+      background: #ffffff !important;
+      border: 1.5px solid rgba(213,43,30,0.2) !important;
+      border-radius: 12px !important;
+      color: #111 !important;
+      font-family: 'DM Sans', sans-serif !important;
+      font-size: 15px !important;
+      padding: 14px 16px !important;
+      width: 100% !important;
+    }
+
+    #sib-container input.input:focus {
+      border-color: var(--red) !important;
+      box-shadow: 0 0 0 3px rgba(213,43,30,0.12) !important;
+      outline: none !important;
+    }
+
+    #sib-container .sib-form-block__button {
+      background: var(--red) !important;
+      color: #fff !important;
+      border-radius: 12px !important;
+      font-family: 'Nunito', sans-serif !important;
+      font-weight: 800 !important;
+      font-size: 16px !important;
+      padding: 14px 28px !important;
+      width: 100% !important;
+      border: none !important;
+      cursor: pointer !important;
+      transition: background 0.2s !important;
+    }
+
+    #sib-container .sib-form-block__button:hover {
+      background: var(--red-hover) !important;
+    }
+
+    #success-message {
+      font-size: 14px !important;
+      font-family: 'DM Sans', sans-serif !important;
+      background: #efffef !important;
+      border-color: #13ce66 !important;
+      border-radius: 12px !important;
+      color: #086629 !important;
+      margin-bottom: 12px;
+    }
+
+    #error-message {
+      font-size: 14px !important;
+      font-family: 'DM Sans', sans-serif !important;
+      background: #fff0ef !important;
+      border-color: var(--red) !important;
+      border-radius: 12px !important;
+      margin-bottom: 12px;
+    }
+
+    .hint {
+      margin-top: 12px;
+      font-size: 12px;
+      color: #aaa;
+    }
+
+    .flag {
+      margin-top: 36px;
+      font-size: 26px;
+      opacity: 0;
+      animation: up 0.6s ease 0.55s forwards;
+    }
+
+    @keyframes up {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    #sib-container .sib-form-block:first-child,
+    #sib-container .sib-form-block:nth-child(2) { display: none !important; }
+
+    .inline-form {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .email-input {
+      flex: 1;
+      background: #ffffff;
+      border: 1.5px solid rgba(213,43,30,0.25);
+      border-radius: 12px;
+      color: #111;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      padding: 14px 16px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .email-input:focus {
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(213,43,30,0.12);
+    }
+
+    .email-input::placeholder { color: #bbb; }
+
+    .submit-btn {
+      background: var(--red) !important;
+      color: #fff !important;
+      border-radius: 12px !important;
+      font-family: 'Nunito', sans-serif !important;
+      font-weight: 800 !important;
+      font-size: 15px !important;
+      padding: 14px 20px !important;
+      border: none !important;
+      cursor: pointer !important;
+      white-space: nowrap;
+      transition: background 0.2s !important;
+    }
+
+    .submit-btn:hover { background: var(--red-hover) !important; }
+
+    @media (max-width: 420px) {
+      .inline-form { flex-direction: column; }
+      .submit-btn { width: 100% !important; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="badge">✦ Bald verfügbar</div>
+
+  <h1>Nie wieder ein <span>Gewinnspiel</span> verpassen 🇨🇭</h1>
+
+  <div class="form-wrap">
+    <div id="error-message" class="sib-form-message-panel" style="display:none; font-size:14px; text-align:left; font-family:'DM Sans',sans-serif; color:#661d1d; background-color:#fff0ef; border-radius:12px; border-color:#D52B1E; max-width:100%; margin-bottom:12px;">
+      <div class="sib-form-message-panel__text sib-form-message-panel__text--center">
+        <span class="sib-form-message-panel__inner-text">Etwas ist schiefgelaufen. Bitte versuche es nochmal.</span>
+      </div>
+    </div>
+    <div id="success-message" class="sib-form-message-panel" style="display:none; font-size:14px; text-align:left; font-family:'DM Sans',sans-serif; color:#086629; background-color:#efffef; border-radius:12px; border-color:#13ce66; max-width:100%; margin-bottom:12px;">
+      <div class="sib-form-message-panel__text sib-form-message-panel__text--center">
+        <span class="sib-form-message-panel__inner-text">🎉 Danke! Bitte bestätige deine E-Mail-Adresse.</span>
+      </div>
+    </div>
+
+    <form id="sib-form" method="POST"
+      action="https://62090d43.sibforms.com/serve/MUIFABqHVL2YIp1m6sBL1WO1POM2y3zFBop89fpaogBM_5vpYcV4XUWW2-ux58tgSvmTsHFABiHdYAXm-S334ZKCj2o008TQDhaKKpxGI1ge_6T4EFQXwU5vJpw-UJrgeJ34X7RDuP7iB4cpUAAmVtVGQYCgmrucsreTFrBBZIHwr44UVaptRHL83fB3HyOEE6WTjZ1QcEp-MEVHyA=="
+      data-type="subscription">
+      <div class="inline-form">
+        <input class="email-input" type="text" id="EMAIL" name="EMAIL"
+          autocomplete="off" placeholder="deine@email.ch"
+          data-required="true" required />
+        <button class="sib-form-block__button sib-form-block__button-with-loader submit-btn" form="sib-form" type="submit">
+          Anmelden
+        </button>
+      </div>
+      <label class="entry__error entry__error--primary" style="font-size:12px; color:#D52B1E; text-align:left; display:block; margin-top:6px;"></label>
+      <input type="text" name="email_address_check" value="" style="display:none;">
+      <input type="hidden" name="locale" value="de">
+    </form>
+
+    <p class="hint">Kostenlos · Kein Spam · Jederzeit abmelden</p>
+  </div>
+
+</div>
+
+<script>
+  window.LOCALE = 'de';
+  window.EMAIL_INVALID_MESSAGE = "Bitte gib eine gültige E-Mail-Adresse ein.";
+  window.REQUIRED_ERROR_MESSAGE = "Dieses Feld darf nicht leer sein.";
+  window.GENERIC_INVALID_MESSAGE = "Bitte gib eine gültige E-Mail-Adresse ein.";
+  window.translation = { common: { selectedList: '{quantity} list selected', selectedLists: '{quantity} lists selected' } };
+  var AUTOHIDE = Boolean(0);
+</script>
+<script defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
+
+</body>
+</html>
