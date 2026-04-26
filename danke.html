@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Danke! – GewinnspielSchweiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --red: #D52B1E; }
+    html, body { height: 100%; background: #fff; font-family: 'DM Sans', sans-serif; color: #111; }
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px 20px;
+    }
+    .icon {
+      font-size: 64px;
+      margin-bottom: 24px;
+      animation: pop 0.5s ease forwards;
+    }
+    h1 {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: clamp(28px, 5vw, 48px);
+      color: #000;
+      margin-bottom: 16px;
+    }
+    p {
+      font-size: 16px;
+      color: #666;
+      max-width: 380px;
+      line-height: 1.6;
+      margin-bottom: 36px;
+    }
+    .btn {
+      display: inline-block;
+      background: var(--red);
+      color: #fff;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      padding: 12px 28px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #b82318; }
+    .footer {
+      margin-top: 48px;
+      font-size: 12px;
+      color: #ccc;
+      display: flex;
+      gap: 10px;
+    }
+    .footer a { color: #ccc; text-decoration: none; }
+    .footer a:hover { color: var(--red); }
+    @keyframes pop {
+      0% { transform: scale(0.5); opacity: 0; }
+      80% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <div class="icon">🎉</div>
+  <h1>Du bist dabei!</h1>
+  <p>Perfekt – du wirst als Erstes informiert wenn wir live gehen und erhältst die besten Schweizer Gewinnspiele direkt in dein Postfach.</p>
+  <a class="btn" href="https://instagram.com/gewinnspieleschweiz" target="_blank">
+    Folge uns auf Instagram 🇨🇭
+  </a>
+  <div class="footer">
+    <a href="/impressum.html">Impressum</a>
+    <span>·</span>
+    <a href="/datenschutz.html">Datenschutz</a>
+  </div>
+</div>
+</body>
+</html>
