@@ -3,8 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GewinnspielSchweiz – Alle Schweizer Gewinnspiele</title>
-  <meta name="description" content="Alle aktuellen Schweizer Gewinnspiele an einem Ort. Täglich neue Verlosungen aus der Schweiz." />
+  <title>GewinnspielSchweiz – Alle Schweizer Gewinnspiele 2026</title>
+  <meta name="description" content="Alle aktuellen Schweizer Gewinnspiele an einem Ort. Täglich neue Verlosungen aus der Schweiz – kostenlos und übersichtlich." />
+  <meta name="keywords" content="gewinnspiele schweiz, gewinnspiel schweiz, verlosung schweiz, wettbewerb schweiz, gratis gewinnspiele" />
+  <meta property="og:title" content="GewinnspielSchweiz – Alle Schweizer Gewinnspiele" />
+  <meta property="og:description" content="Täglich neue Schweizer Gewinnspiele an einem Ort. Kostenlos mitmachen!" />
+  <meta property="og:url" content="https://gewinnspieleschweiz.ch" />
+  <meta property="og:type" content="website" />
+  <link rel="canonical" href="https://gewinnspieleschweiz.ch" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🇨🇭</text></svg>">
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RWWB1CDLR8"></script>
@@ -26,49 +32,328 @@
       --red-light: #fff0ef;
       --border: #ebebeb;
       --text: #111;
-      --text-muted: #888;
+      --text-muted: #666;
       --bg: #f9f9f9;
     }
 
+    html { scroll-behavior: smooth; }
     body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-    /* HEADER */
-    header { background: #fff; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
-    .header-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
-    .logo { font-size: 17px; font-weight: 800; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 8px; }
-    .logo span { color: var(--red); }
-    .header-right { display: flex; align-items: center; gap: 16px; }
-    .instagram-link { font-size: 13px; font-weight: 500; color: var(--text-muted); text-decoration: none; }
-    .instagram-link:hover { color: var(--red); }
-    .newsletter-btn { background: var(--red); color: #fff; font-size: 13px; font-weight: 600; padding: 8px 16px; border-radius: 8px; text-decoration: none; transition: background 0.2s; }
-    .newsletter-btn:hover { background: var(--red-hover); }
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      transition: background 0.3s, border-color 0.3s;
+    }
 
-    /* HERO */
-    .hero { background: #fff; border-bottom: 1px solid var(--border); padding: 40px 24px 32px; text-align: center; }
-    .hero-inner { max-width: 600px; margin: 0 auto; }
-    .hero h1 { font-size: clamp(26px, 4vw, 42px); font-weight: 800; line-height: 1.15; margin-bottom: 12px; letter-spacing: -0.02em; }
-    .hero h1 span { color: var(--red); }
-    .hero p { font-size: 15px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6; }
-    .stats-row { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; }
-    .stat { text-align: center; }
-    .stat-num { font-size: 22px; font-weight: 800; color: var(--red); }
-    .stat-label { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    nav.scrolled {
+      background: rgba(255,255,255,0.97);
+      border-bottom: 1px solid var(--border);
+    }
 
-    /* MAIN */
-    .main { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-    /* FILTERS */
-    .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; align-items: center; }
-    .filter-label { font-size: 13px; font-weight: 600; color: var(--text-muted); margin-right: 4px; }
-    .filter-btn { background: #fff; border: 1px solid var(--border); color: var(--text); font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; padding: 6px 14px; border-radius: 100px; cursor: pointer; transition: all 0.15s; }
-    .filter-btn:hover { border-color: var(--red); color: var(--red); }
-    .filter-btn.active { background: var(--red); border-color: var(--red); color: #fff; }
+    .nav-logo {
+      font-size: 17px;
+      font-weight: 800;
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    nav.scrolled .nav-logo { color: var(--text); }
+    .nav-logo span { color: #fff; transition: color 0.3s; }
+    nav.scrolled .nav-logo span { color: var(--red); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.9);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    nav.scrolled .nav-links a { color: var(--text-muted); }
+    .nav-links a:hover { background: rgba(255,255,255,0.2); color: #fff; }
+    nav.scrolled .nav-links a:hover { background: var(--red-light); color: var(--red); }
+
+    /* Dropdown */
+    .dropdown { position: relative; }
+
+    .dropdown-toggle {
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.9);
+      background: none;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+    }
+
+    nav.scrolled .dropdown-toggle { color: var(--text-muted); }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 8px;
+      min-width: 160px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+
+    .dropdown:hover .dropdown-menu { display: block; }
+
+    .dropdown-menu a {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted) !important;
+      background: none !important;
+      padding: 8px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+
+    .dropdown-menu a:hover { background: var(--red-light) !important; color: var(--red) !important; }
+
+    .nav-cta {
+      background: var(--red);
+      color: #fff !important;
+      padding: 8px 16px !important;
+      border-radius: 8px !important;
+      font-weight: 600 !important;
+    }
+
+    .nav-cta:hover { background: var(--red-hover) !important; color: #fff !important; }
+    nav.scrolled .nav-cta { color: #fff !important; }
+
+    /* ── HERO ── */
+    .hero {
+      height: 100vh;
+      min-height: 600px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1620563092215-0fbc6b55cfc5?q=80&w=1742&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.5);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 640px;
+      padding: 0 24px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+      backdrop-filter: blur(8px);
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 6vw, 60px);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 span { color: #ff6b5b; }
+
+    .hero p {
+      font-size: 17px;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 36px;
+      line-height: 1.6;
+    }
+
+    .hero-form {
+      display: flex;
+      gap: 8px;
+      max-width: 420px;
+      margin: 0 auto 20px;
+    }
+
+    .hero-input {
+      flex: 1;
+      background: rgba(255,255,255,0.15);
+      border: 1.5px solid rgba(255,255,255,0.4);
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: #fff;
+      padding: 14px 18px;
+      outline: none;
+      backdrop-filter: blur(8px);
+      transition: border-color 0.2s;
+    }
+
+    .hero-input::placeholder { color: rgba(255,255,255,0.6); }
+    .hero-input:focus { border-color: #fff; }
+
+    .hero-btn {
+      background: var(--red);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 14px 22px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+
+    .hero-btn:hover { background: var(--red-hover); }
+
+    .hero-hint {
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.6);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      animation: bounce 2s infinite;
+    }
+
+    .hero-scroll svg { width: 20px; height: 20px; }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ── MAIN ── */
+    #gewinnspiele { scroll-margin-top: 80px; }
+
+    .main { max-width: 1100px; margin: 0 auto; padding: 48px 24px; }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .section-header h2 {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    .section-count {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
 
     /* SEARCH */
-    .search-input { width: 100%; max-width: 360px; background: #fff; border: 1px solid var(--border); border-radius: 10px; font-family: 'Inter', sans-serif; font-size: 14px; padding: 10px 16px; outline: none; transition: border-color 0.2s; margin-bottom: 20px; }
+    .search-input {
+      width: 100%;
+      max-width: 380px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      padding: 10px 16px;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 20px;
+    }
+
     .search-input:focus { border-color: var(--red); }
 
-    .section-title { font-size: 13px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
+    /* FILTERS */
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+      align-items: center;
+    }
+
+    .filter-label { font-size: 13px; font-weight: 600; color: var(--text-muted); }
+
+    .filter-btn {
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .filter-btn:hover { border-color: var(--red); color: var(--red); }
+    .filter-btn.active { background: var(--red); border-color: var(--red); color: #fff; }
 
     /* GRID */
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
@@ -82,13 +367,11 @@
       display: flex;
       flex-direction: column;
       transition: box-shadow 0.2s, transform 0.2s;
-      text-decoration: none;
-      color: inherit;
+      cursor: pointer;
     }
 
-    .card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); transform: translateY(-2px); }
+    .card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.09); transform: translateY(-3px); }
 
-    /* CARD IMAGE */
     .card-img {
       width: 100%;
       aspect-ratio: 4/3;
@@ -104,19 +387,40 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 48px;
+      font-size: 52px;
     }
 
     .card-body { padding: 16px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
 
-    .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
-    .card-category { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red); background: var(--red-light); padding: 3px 8px; border-radius: 100px; white-space: nowrap; }
-    .card-featured { font-size: 11px; font-weight: 600; color: #b8860b; background: #fff8e1; padding: 3px 8px; border-radius: 100px; }
+    .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; flex-wrap: wrap; }
+
+    .card-tags { display: flex; gap: 4px; flex-wrap: wrap; }
+
+    .card-tag {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--red);
+      background: var(--red-light);
+      padding: 3px 8px;
+      border-radius: 100px;
+    }
+
+    .card-featured { font-size: 11px; font-weight: 600; color: #b8860b; background: #fff8e1; padding: 3px 8px; border-radius: 100px; white-space: nowrap; }
 
     .card-title { font-size: 15px; font-weight: 700; line-height: 1.3; }
     .card-prize { font-size: 13px; color: var(--text-muted); line-height: 1.4; }
 
-    .card-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 10px; border-top: 1px solid var(--border); }
+    .card-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+
     .card-company { font-size: 12px; font-weight: 600; color: var(--text-muted); }
     .card-deadline { font-size: 12px; color: var(--text-muted); }
     .card-deadline.urgent { color: var(--red); font-weight: 600; }
@@ -125,77 +429,272 @@
     .empty { text-align: center; padding: 60px 20px; color: var(--text-muted); grid-column: 1 / -1; }
     .empty-icon { font-size: 40px; margin-bottom: 12px; }
 
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 500;
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: #fff;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 560px;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      animation: modalIn 0.25s ease;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.95) translateY(12px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal-img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-img-placeholder {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, #fff0ef, #ffe0de);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-body { padding: 28px; }
+
+    .modal-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+
+    .modal-tag {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--red);
+      background: var(--red-light);
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+
+    .modal-title { font-size: 22px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.01em; }
+
+    .modal-company { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+
+    .modal-prize {
+      background: var(--red-light);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .modal-prize-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red); margin-bottom: 4px; }
+    .modal-prize-value { font-size: 16px; font-weight: 700; }
+
+    .modal-desc { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-bottom: 20px; }
+
+    .modal-steps { margin-bottom: 24px; }
+    .modal-steps-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+    .modal-step { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 10px; font-size: 14px; }
+    .modal-step-num { background: var(--red); color: #fff; font-size: 12px; font-weight: 700; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+    .modal-deadline { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
+    .modal-deadline strong { color: var(--text); }
+
+    .modal-cta {
+      display: block;
+      background: var(--red);
+      color: #fff;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 14px;
+      border-radius: 12px;
+      text-decoration: none;
+      margin-bottom: 16px;
+      transition: background 0.2s;
+    }
+
+    .modal-cta:hover { background: var(--red-hover); }
+
+    .modal-divider { text-align: center; font-size: 12px; color: #ccc; margin: 20px 0; position: relative; }
+    .modal-divider::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: var(--border); }
+    .modal-divider span { background: #fff; padding: 0 12px; position: relative; }
+
+    .modal-newsletter h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .modal-newsletter p { font-size: 13px; color: var(--text-muted); margin-bottom: 14px; }
+
+    .modal-newsletter-form { display: flex; gap: 8px; }
+    .modal-newsletter-input {
+      flex: 1;
+      background: #f9f9f9;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      padding: 12px 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .modal-newsletter-input:focus { border-color: var(--red); }
+    .modal-newsletter-btn {
+      background: var(--red);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 12px 18px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+
+    .modal-newsletter-btn:hover { background: var(--red-hover); }
+
+    .modal-disclaimer { font-size: 11px; color: #ccc; margin-top: 16px; line-height: 1.5; }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(0,0,0,0.4);
+      border: none;
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      transition: background 0.2s;
+    }
+
+    .modal-close:hover { background: rgba(0,0,0,0.6); }
+
     /* NEWSLETTER BANNER */
-    .newsletter-banner { background: var(--red); border-radius: 16px; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-top: 40px; flex-wrap: wrap; }
-    .newsletter-banner h2 { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+    .newsletter-banner { background: var(--red); border-radius: 20px; padding: 40px; display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-top: 48px; flex-wrap: wrap; }
+    .newsletter-banner h2 { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 6px; }
     .newsletter-banner p { font-size: 14px; color: rgba(255,255,255,0.8); }
     .newsletter-form { display: flex; gap: 8px; flex-shrink: 0; }
-    .newsletter-input { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 10px; font-family: 'Inter', sans-serif; font-size: 14px; color: #fff; padding: 10px 16px; outline: none; width: 220px; }
+    .newsletter-input { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 10px; font-family: 'Inter', sans-serif; font-size: 14px; color: #fff; padding: 12px 16px; outline: none; width: 220px; }
     .newsletter-input::placeholder { color: rgba(255,255,255,0.6); }
     .newsletter-input:focus { border-color: #fff; }
-    .newsletter-submit { background: #fff; color: var(--red); border: none; border-radius: 10px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; padding: 10px 20px; cursor: pointer; transition: opacity 0.2s; }
+    .newsletter-submit { background: #fff; color: var(--red); border: none; border-radius: 10px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; padding: 12px 20px; cursor: pointer; transition: opacity 0.2s; }
     .newsletter-submit:hover { opacity: 0.9; }
 
     /* FOOTER */
-    footer { border-top: 1px solid var(--border); margin-top: 60px; padding: 24px; text-align: center; font-size: 12px; color: var(--text-muted); }
-    footer a { color: var(--text-muted); text-decoration: none; margin: 0 8px; }
+    footer { border-top: 1px solid var(--border); margin-top: 60px; padding: 32px 24px; text-align: center; font-size: 13px; color: var(--text-muted); }
+    footer a { color: var(--text-muted); text-decoration: none; margin: 0 10px; }
     footer a:hover { color: var(--red); }
-    .disclaimer { font-size: 11px; color: #ccc; margin-top: 12px; line-height: 1.5; }
+    .disclaimer { font-size: 11px; color: #bbb; margin-top: 16px; line-height: 1.6; max-width: 600px; margin-left: auto; margin-right: auto; }
 
-    .loading { text-align: center; padding: 60px; color: var(--text-muted); grid-column: 1 / -1; }
+    .loading { text-align: center; padding: 60px; color: var(--text-muted); grid-column: 1 / -1; font-size: 15px; }
 
     @media (max-width: 600px) {
-      .header-inner { padding: 0 16px; }
-      .main { padding: 20px 16px; }
-      .newsletter-banner { padding: 24px; }
-      .newsletter-form { width: 100%; }
-      .newsletter-input { flex: 1; width: auto; }
-      .hero { padding: 28px 16px 24px; }
+      .nav-inner { padding: 0 16px; }
+      .main { padding: 32px 16px; }
+      .hero-form { flex-direction: column; }
+      .newsletter-banner { padding: 28px; }
+      .newsletter-form { width: 100%; flex-direction: column; }
+      .newsletter-input { width: 100%; }
+      .modal-newsletter-form { flex-direction: column; }
     }
   </style>
 </head>
 <body>
 
-<header>
-  <div class="header-inner">
-    <a class="logo" href="/">🇨🇭 Gewinnspiele<span>Schweiz</span></a>
-    <div class="header-right">
-      <a class="instagram-link" href="https://instagram.com/gewinnspieleschweiz" target="_blank">@gewinnspieleschweiz</a>
-      <a class="newsletter-btn" href="/newsletter.html">Newsletter 🎁</a>
-    </div>
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/">🇨🇭 Gewinnspiele<span>Schweiz</span></a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="#gewinnspiele">Gewinnspiele</a></li>
+      <li><a href="/newsletter.html">Newsletter</a></li>
+      <li class="dropdown">
+        <button class="dropdown-toggle">Mehr ▾</button>
+        <div class="dropdown-menu">
+          <a href="/impressum.html">Impressum</a>
+          <a href="/datenschutz.html">Datenschutz</a>
+          <a href="https://instagram.com/gewinnspieleschweiz" target="_blank">Instagram</a>
+        </div>
+      </li>
+      <li><a class="nav-cta" href="/newsletter.html">🎁 Newsletter</a></li>
+    </ul>
   </div>
-</header>
+</nav>
 
-<div class="hero">
-  <div class="hero-inner">
-    <h1>Alle Schweizer <span>Gewinnspiele</span><br>an einem Ort.</h1>
-    <p>Täglich aktualisiert. Kostenlos. Nur Schweizer Angebote.</p>
-    <div class="stats-row">
-      <div class="stat"><div class="stat-num" id="count-total">–</div><div class="stat-label">Aktuelle Gewinnspiele</div></div>
-      <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Kostenlos</div></div>
-      <div class="stat"><div class="stat-num">🇨🇭</div><div class="stat-label">Nur Schweiz</div></div>
-    </div>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🇨🇭 Täglich aktualisiert</div>
+    <h1>Alle Schweizer<br><span>Gewinnspiele</span><br>an einem Ort.</h1>
+    <p>Kostenlos mitmachen. Nie wieder eine Verlosung verpassen.</p>
+    <form class="hero-form" method="POST" action="https://62090d43.sibforms.com/serve/MUIFABqHVL2YIp1m6sBL1WO1POM2y3zFBop89fpaogBM_5vpYcV4XUWW2-ux58tgSvmTsHFABiHdYAXm-S334ZKCj2o008TQDhaKKpxGI1ge_6T4EFQXwU5vJpw-UJrgeJ34X7RDuP7iB4cpUAAmVtVGQYCgmrucsreTFrBBZIHwr44UVaptRHL83fB3HyOEE6WTjZ1QcEp-MEVHyA==">
+      <input class="hero-input" type="email" name="EMAIL" placeholder="deine@email.ch" required>
+      <input type="hidden" name="locale" value="de">
+      <input type="hidden" name="email_address_check" value="">
+      <button class="hero-btn" type="submit">Anmelden</button>
+    </form>
+    <p class="hero-hint">Kostenlos · Kein Spam · Jederzeit abmeldbar</p>
   </div>
-</div>
+  <a class="hero-scroll" href="#gewinnspiele">
+    Gewinnspiele entdecken
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </a>
+</section>
 
-<div class="main">
+<!-- MAIN -->
+<div class="main" id="gewinnspiele">
+  <div class="section-header">
+    <h2>Aktuelle Gewinnspiele</h2>
+    <span class="section-count" id="section-count"></span>
+  </div>
 
-  <input class="search-input" type="text" id="search" placeholder="🔍  Gewinnspiel suchen..." oninput="filterCards()">
+  <input class="search-input" type="text" id="search" placeholder="🔍  Suchen..." oninput="filterCards()">
 
-  <div class="filters">
+  <div class="filters" id="filters">
     <span class="filter-label">Kategorie:</span>
     <button class="filter-btn active" onclick="setFilter('Alle', this)">Alle</button>
     <button class="filter-btn" onclick="setFilter('Reisen', this)">✈️ Reisen</button>
-    <button class="filter-btn" onclick="setFilter('Food & Drink', this)">🍽️ Food & Drink</button>
-    <button class="filter-btn" onclick="setFilter('Shopping', this)">🛍️ Shopping</button>
-    <button class="filter-btn" onclick="setFilter('Lifestyle', this)">✨ Lifestyle</button>
-    <button class="filter-btn" onclick="setFilter('Tech', this)">📱 Tech</button>
+    <button class="filter-btn" onclick="setFilter('Freizeit', this)">🎉 Freizeit</button>
+    <button class="filter-btn" onclick="setFilter('Wellness', this)">🧘 Wellness</button>
     <button class="filter-btn" onclick="setFilter('Sport', this)">⚽ Sport</button>
+    <button class="filter-btn" onclick="setFilter('Familie', this)">👨‍👩‍👧 Familie</button>
+    <button class="filter-btn" onclick="setFilter('Shopping', this)">🛍️ Shopping</button>
+    <button class="filter-btn" onclick="setFilter('Food', this)">🍽️ Food</button>
+    <button class="filter-btn" onclick="setFilter('Tech', this)">📱 Tech</button>
+    <button class="filter-btn" onclick="setFilter('Lifestyle', this)">✨ Lifestyle</button>
   </div>
 
-  <div class="section-title" id="section-label">Alle Gewinnspiele</div>
-  <div class="grid" id="grid"><div class="loading">⏳ Gewinnspiele werden geladen...</div></div>
+  <div class="grid" id="grid">
+    <div class="loading">⏳ Gewinnspiele werden geladen...</div>
+  </div>
 
+  <!-- Newsletter Banner -->
   <div class="newsletter-banner">
     <div>
       <h2>Kein Gewinnspiel mehr verpassen 🎁</h2>
@@ -208,21 +707,30 @@
       <button class="newsletter-submit" type="submit">Anmelden</button>
     </form>
   </div>
-
 </div>
 
 <footer>
   <p>
+    <a href="/">Home</a>
+    <a href="#gewinnspiele">Gewinnspiele</a>
+    <a href="/newsletter.html">Newsletter</a>
     <a href="/impressum.html">Impressum</a>
     <a href="/datenschutz.html">Datenschutz</a>
-    <a href="/newsletter.html">Newsletter</a>
     <a href="https://instagram.com/gewinnspieleschweiz" target="_blank">Instagram</a>
   </p>
   <p class="disclaimer">
     GewinnspielSchweiz veranstaltet keine Gewinnspiele. Wir teilen öffentlich verfügbare Gewinnspiele.<br>
-    Die Teilnahme erfolgt ausschliesslich über den jeweiligen Original-Veranstalter.
+    Die Teilnahme erfolgt ausschliesslich über den jeweiligen Original-Veranstalter. Nicht verbunden mit Meta (Facebook/Instagram).
   </p>
 </footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
 
 <script>
   const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTnYZaKWaq94N2sOZfHK6_KsKpCaSeEgqpsWxtYCE8e0S5xcJKmRopzMtorse2hYTHPrA_XIBwv_yHo/pub?gid=0&single=true&output=csv';
@@ -230,6 +738,12 @@
   let allData = [];
   let activeFilter = 'Alle';
 
+  // Navbar scroll effect
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // CSV parser
   function parseCSV(text) {
     const lines = text.trim().split('\n');
     const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
@@ -268,9 +782,28 @@
     return `📅 Noch ${d} Tage`;
   }
 
+  // Category partial match – "Reisen/Freizeit" matches both "Reisen" and "Freizeit"
+  function matchesFilter(kategorieStr, filter) {
+    if (filter === 'Alle') return true;
+    if (!kategorieStr) return false;
+    const parts = kategorieStr.split('/').map(p => p.trim().toLowerCase());
+    return parts.some(p => p.includes(filter.toLowerCase()) || filter.toLowerCase().includes(p));
+  }
+
+  function getTags(kategorieStr) {
+    if (!kategorieStr) return [];
+    return kategorieStr.split('/').map(p => p.trim()).filter(Boolean);
+  }
+
   function categoryEmoji(cat) {
-    const map = { 'Reisen': '✈️', 'Food & Drink': '🍽️', 'Shopping': '🛍️', 'Lifestyle': '✨', 'Tech': '📱', 'Sport': '⚽' };
-    return map[cat] || '🎁';
+    const map = {
+      'reisen': '✈️', 'freizeit': '🎉', 'wellness': '🧘', 'sport': '⚽',
+      'familie': '👨‍👩‍👧', 'familien': '👨‍👩‍👧', 'shopping': '🛍️',
+      'food': '🍽️', 'tech': '📱', 'lifestyle': '✨'
+    };
+    if (!cat) return '🎁';
+    const first = cat.split('/')[0].trim().toLowerCase();
+    return map[first] || '🎁';
   }
 
   function renderCards(data) {
@@ -278,37 +811,39 @@
     const search = document.getElementById('search').value.toLowerCase();
 
     let filtered = data.filter(r => {
-      const matchFilter = activeFilter === 'Alle' || r.Kategorie === activeFilter;
-      const matchSearch = !search || r.Titel.toLowerCase().includes(search) || (r.Firma||'').toLowerCase().includes(search) || (r.Preis||'').toLowerCase().includes(search);
+      const matchFilter = matchesFilter(r.Kategorie, activeFilter);
+      const matchSearch = !search ||
+        (r.Titel||'').toLowerCase().includes(search) ||
+        (r.Firma||'').toLowerCase().includes(search) ||
+        (r.Preis||'').toLowerCase().includes(search);
       const d = daysLeft(r.Deadline);
-      const notExpired = d === null || d >= 0;
-      return matchFilter && matchSearch && notExpired;
+      return matchFilter && matchSearch && (d === null || d >= 0);
     });
 
     filtered.sort((a, b) => (b.Featured === 'Ja') - (a.Featured === 'Ja'));
 
-    document.getElementById('count-total').textContent = filtered.length;
-    document.getElementById('section-label').textContent = activeFilter === 'Alle' ? `Alle Gewinnspiele (${filtered.length})` : `${activeFilter} (${filtered.length})`;
+    document.getElementById('section-count').textContent = `${filtered.length} Gewinnspiele`;
 
     if (filtered.length === 0) {
       grid.innerHTML = `<div class="empty"><div class="empty-icon">🔍</div><p>Keine Gewinnspiele gefunden.</p></div>`;
       return;
     }
 
-    grid.innerHTML = filtered.map(r => {
+    grid.innerHTML = filtered.map((r, i) => {
       const d = daysLeft(r.Deadline);
       const urgent = d !== null && d <= 3;
+      const tags = getTags(r.Kategorie);
       const imgHtml = r.Bild
-        ? `<img class="card-img" src="${r.Bild}" alt="${r.Titel}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        ? `<img class="card-img" src="${r.Bild}" alt="${r.Titel}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
            <div class="card-img-placeholder" style="display:none;">${categoryEmoji(r.Kategorie)}</div>`
         : `<div class="card-img-placeholder">${categoryEmoji(r.Kategorie)}</div>`;
 
       return `
-        <a class="card" href="${r.Link}" target="_blank" rel="noopener">
+        <div class="card" onclick="openModal(${allData.indexOf(r)})">
           ${imgHtml}
           <div class="card-body">
             <div class="card-top">
-              <span class="card-category">${r.Kategorie || 'Allgemein'}</span>
+              <div class="card-tags">${tags.map(t => `<span class="card-tag">${t}</span>`).join('')}</div>
               ${r.Featured === 'Ja' ? '<span class="card-featured">⭐ Featured</span>' : ''}
             </div>
             <div class="card-title">${r.Titel}</div>
@@ -318,7 +853,7 @@
               <span class="card-deadline ${urgent ? 'urgent' : ''}">${deadlineLabel(r.Deadline)}</span>
             </div>
           </div>
-        </a>`;
+        </div>`;
     }).join('');
   }
 
@@ -331,6 +866,75 @@
 
   function filterCards() { renderCards(allData); }
 
+  // Modal
+  function openModal(index) {
+    const r = allData[index];
+    if (!r) return;
+
+    const tags = getTags(r.Kategorie);
+    const d = daysLeft(r.Deadline);
+    const urgent = d !== null && d <= 3;
+
+    const imgHtml = r.Bild
+      ? `<img class="modal-img" src="${r.Bild}" alt="${r.Titel}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+         <div class="modal-img-placeholder" style="display:none;">${categoryEmoji(r.Kategorie)}</div>`
+      : `<div class="modal-img-placeholder">${categoryEmoji(r.Kategorie)}</div>`;
+
+    // Steps
+    const stepsHtml = r.Schritte ? `
+      <div class="modal-steps">
+        <div class="modal-steps-title">So nimmst du teil</div>
+        ${r.Schritte.split('|').map((s, i) => `
+          <div class="modal-step">
+            <div class="modal-step-num">${i+1}</div>
+            <span>${s.trim()}</span>
+          </div>`).join('')}
+      </div>` : '';
+
+    document.getElementById('modal-content').innerHTML = `
+      ${imgHtml}
+      <div class="modal-body">
+        <div class="modal-tags">${tags.map(t => `<span class="modal-tag">${t}</span>`).join('')}</div>
+        <div class="modal-title">${r.Titel}</div>
+        <div class="modal-company">Veranstaltet von @${r.Firma}</div>
+        <div class="modal-prize">
+          <div class="modal-prize-label">Zu gewinnen</div>
+          <div class="modal-prize-value">🎁 ${r.Preis}</div>
+        </div>
+        ${r.Beschreibung ? `<div class="modal-desc">${r.Beschreibung}</div>` : ''}
+        ${stepsHtml}
+        ${r.Deadline ? `<div class="modal-deadline">⏰ Teilnahmeschluss: <strong class="${urgent ? 'urgent' : ''}">${r.Deadline}</strong></div>` : ''}
+        <a class="modal-cta" href="${r.Link}" target="_blank" rel="noopener">Jetzt beim Original mitmachen →</a>
+        <div class="modal-divider"><span>oder</span></div>
+        <div class="modal-newsletter">
+          <h3>Kein Gewinnspiel mehr verpassen 🎁</h3>
+          <p>Erhalte die besten Schweizer Gewinnspiele direkt ins Postfach.</p>
+          <form class="modal-newsletter-form" method="POST" action="https://62090d43.sibforms.com/serve/MUIFABqHVL2YIp1m6sBL1WO1POM2y3zFBop89fpaogBM_5vpYcV4XUWW2-ux58tgSvmTsHFABiHdYAXm-S334ZKCj2o008TQDhaKKpxGI1ge_6T4EFQXwU5vJpw-UJrgeJ34X7RDuP7iB4cpUAAmVtVGQYCgmrucsreTFrBBZIHwr44UVaptRHL83fB3HyOEE6WTjZ1QcEp-MEVHyA==">
+            <input class="modal-newsletter-input" type="email" name="EMAIL" placeholder="deine@email.ch" required>
+            <input type="hidden" name="locale" value="de">
+            <input type="hidden" name="email_address_check" value="">
+            <button class="modal-newsletter-btn" type="submit">Anmelden</button>
+          </form>
+        </div>
+        <p class="modal-disclaimer">Nicht von @gewinnspieleschweiz veranstaltet. Teilnahme über den Original Post beim Veranstalter. Nicht verbunden mit Meta.</p>
+      </div>`;
+
+    document.getElementById('modal-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(e) {
+    if (e.target === document.getElementById('modal-overlay')) closeModalDirect();
+  }
+
+  function closeModalDirect() {
+    document.getElementById('modal-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
+
+  // Load
   async function loadData() {
     try {
       const res = await fetch(SHEET_URL);
