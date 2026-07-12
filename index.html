@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GewinnspielSchweiz – Bald sind wir da!</title>
-  <meta name="description" content="Alle Schweizer Gewinnspiele an einem Ort." />
+  <title>GewinnspielSchweiz – Alle Schweizer Gewinnspiele</title>
+  <meta name="description" content="Alle aktuellen Schweizer Gewinnspiele an einem Ort. Täglich neue Verlosungen aus der Schweiz." />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🇨🇭</text></svg>">
 
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RWWB1CDLR8"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -16,15 +15,7 @@
     gtag('config', 'G-RWWB1CDLR8');
   </script>
 
-  <style>
-    @font-face {
-      font-display: block; font-family: Roboto;
-      src: url(https://assets.brevo.com/font/Roboto/Latin/normal/normal/7529907e9eaf8ebb5220c5f9850e3811.woff2) format("woff2")
-    }
-    #sib-container input::placeholder { font-family: Helvetica, sans-serif; color: #aaa; }
-  </style>
-  <link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -32,247 +23,326 @@
     :root {
       --red: #D52B1E;
       --red-hover: #b82318;
+      --red-light: #fff0ef;
+      --border: #ebebeb;
+      --text: #111;
+      --text-muted: #888;
+      --bg: #f9f9f9;
     }
 
-    html, body {
-      height: 100%;
-      background: #ffffff;
-      color: #111;
-      font-family: 'DM Sans', sans-serif;
-    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-    .page {
-      min-height: 100vh;
+    /* HEADER */
+    header { background: #fff; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+    .header-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-size: 17px; font-weight: 800; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+    .logo span { color: var(--red); }
+    .header-right { display: flex; align-items: center; gap: 16px; }
+    .instagram-link { font-size: 13px; font-weight: 500; color: var(--text-muted); text-decoration: none; }
+    .instagram-link:hover { color: var(--red); }
+    .newsletter-btn { background: var(--red); color: #fff; font-size: 13px; font-weight: 600; padding: 8px 16px; border-radius: 8px; text-decoration: none; transition: background 0.2s; }
+    .newsletter-btn:hover { background: var(--red-hover); }
+
+    /* HERO */
+    .hero { background: #fff; border-bottom: 1px solid var(--border); padding: 40px 24px 32px; text-align: center; }
+    .hero-inner { max-width: 600px; margin: 0 auto; }
+    .hero h1 { font-size: clamp(26px, 4vw, 42px); font-weight: 800; line-height: 1.15; margin-bottom: 12px; letter-spacing: -0.02em; }
+    .hero h1 span { color: var(--red); }
+    .hero p { font-size: 15px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6; }
+    .stats-row { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; }
+    .stat { text-align: center; }
+    .stat-num { font-size: 22px; font-weight: 800; color: var(--red); }
+    .stat-label { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+    /* MAIN */
+    .main { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+
+    /* FILTERS */
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; align-items: center; }
+    .filter-label { font-size: 13px; font-weight: 600; color: var(--text-muted); margin-right: 4px; }
+    .filter-btn { background: #fff; border: 1px solid var(--border); color: var(--text); font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; padding: 6px 14px; border-radius: 100px; cursor: pointer; transition: all 0.15s; }
+    .filter-btn:hover { border-color: var(--red); color: var(--red); }
+    .filter-btn.active { background: var(--red); border-color: var(--red); color: #fff; }
+
+    /* SEARCH */
+    .search-input { width: 100%; max-width: 360px; background: #fff; border: 1px solid var(--border); border-radius: 10px; font-family: 'Inter', sans-serif; font-size: 14px; padding: 10px 16px; outline: none; transition: border-color 0.2s; margin-bottom: 20px; }
+    .search-input:focus { border-color: var(--red); }
+
+    .section-title { font-size: 13px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
+
+    /* GRID */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+
+    /* CARD */
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
+      transition: box-shadow 0.2s, transform 0.2s;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); transform: translateY(-2px); }
+
+    /* CARD IMAGE */
+    .card-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      background: #f0f0f0;
+      display: block;
+    }
+
+    .card-img-placeholder {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: linear-gradient(135deg, #fff0ef 0%, #ffe0de 100%);
+      display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px 20px;
-      text-align: center;
+      font-size: 48px;
     }
 
-    .badge {
-      display: inline-block;
-      background: #fff0ef;
-      border: 1px solid rgba(213,43,30,0.3);
-      color: var(--red);
-      font-family: 'Nunito', sans-serif;
-      font-weight: 800;
-      font-size: 12px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      padding: 6px 18px;
-      border-radius: 100px;
-      margin-bottom: 28px;
-      opacity: 0;
-      animation: up 0.6s ease 0.1s forwards;
+    .card-body { padding: 16px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+
+    .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+    .card-category { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red); background: var(--red-light); padding: 3px 8px; border-radius: 100px; white-space: nowrap; }
+    .card-featured { font-size: 11px; font-weight: 600; color: #b8860b; background: #fff8e1; padding: 3px 8px; border-radius: 100px; }
+
+    .card-title { font-size: 15px; font-weight: 700; line-height: 1.3; }
+    .card-prize { font-size: 13px; color: var(--text-muted); line-height: 1.4; }
+
+    .card-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 10px; border-top: 1px solid var(--border); }
+    .card-company { font-size: 12px; font-weight: 600; color: var(--text-muted); }
+    .card-deadline { font-size: 12px; color: var(--text-muted); }
+    .card-deadline.urgent { color: var(--red); font-weight: 600; }
+
+    /* EMPTY */
+    .empty { text-align: center; padding: 60px 20px; color: var(--text-muted); grid-column: 1 / -1; }
+    .empty-icon { font-size: 40px; margin-bottom: 12px; }
+
+    /* NEWSLETTER BANNER */
+    .newsletter-banner { background: var(--red); border-radius: 16px; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-top: 40px; flex-wrap: wrap; }
+    .newsletter-banner h2 { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+    .newsletter-banner p { font-size: 14px; color: rgba(255,255,255,0.8); }
+    .newsletter-form { display: flex; gap: 8px; flex-shrink: 0; }
+    .newsletter-input { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 10px; font-family: 'Inter', sans-serif; font-size: 14px; color: #fff; padding: 10px 16px; outline: none; width: 220px; }
+    .newsletter-input::placeholder { color: rgba(255,255,255,0.6); }
+    .newsletter-input:focus { border-color: #fff; }
+    .newsletter-submit { background: #fff; color: var(--red); border: none; border-radius: 10px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; padding: 10px 20px; cursor: pointer; transition: opacity 0.2s; }
+    .newsletter-submit:hover { opacity: 0.9; }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); margin-top: 60px; padding: 24px; text-align: center; font-size: 12px; color: var(--text-muted); }
+    footer a { color: var(--text-muted); text-decoration: none; margin: 0 8px; }
+    footer a:hover { color: var(--red); }
+    .disclaimer { font-size: 11px; color: #ccc; margin-top: 12px; line-height: 1.5; }
+
+    .loading { text-align: center; padding: 60px; color: var(--text-muted); grid-column: 1 / -1; }
+
+    @media (max-width: 600px) {
+      .header-inner { padding: 0 16px; }
+      .main { padding: 20px 16px; }
+      .newsletter-banner { padding: 24px; }
+      .newsletter-form { width: 100%; }
+      .newsletter-input { flex: 1; width: auto; }
+      .hero { padding: 28px 16px 24px; }
     }
-
-    h1 {
-      font-family: 'Nunito', sans-serif;
-      font-weight: 900;
-      font-size: clamp(28px, 5.5vw, 56px);
-      line-height: 1.15;
-      color: #000;
-      margin-bottom: 32px;
-      max-width: 520px;
-      opacity: 0;
-      animation: up 0.6s ease 0.25s forwards;
-    }
-
-    h1 span { color: var(--red); }
-
-    .form-wrap {
-      width: 100%;
-      max-width: 440px;
-      opacity: 0;
-      animation: up 0.6s ease 0.4s forwards;
-    }
-
-    .sib-form { background: transparent !important; padding: 0 !important; }
-
-    #sib-container {
-      background: #fff8f8 !important;
-      border: 1.5px solid rgba(213,43,30,0.2) !important;
-      border-radius: 20px !important;
-      padding: 24px !important;
-      max-width: 100% !important;
-    }
-
-    #sib-container input.input {
-      background: #ffffff !important;
-      border: 1.5px solid rgba(213,43,30,0.2) !important;
-      border-radius: 12px !important;
-      color: #111 !important;
-      font-family: 'DM Sans', sans-serif !important;
-      font-size: 15px !important;
-      padding: 14px 16px !important;
-      width: 100% !important;
-    }
-
-    #sib-container input.input:focus {
-      border-color: var(--red) !important;
-      box-shadow: 0 0 0 3px rgba(213,43,30,0.12) !important;
-      outline: none !important;
-    }
-
-    #sib-container .sib-form-block__button {
-      background: var(--red) !important;
-      color: #fff !important;
-      border-radius: 12px !important;
-      font-family: 'Nunito', sans-serif !important;
-      font-weight: 800 !important;
-      font-size: 16px !important;
-      padding: 14px 28px !important;
-      width: 100% !important;
-      border: none !important;
-      cursor: pointer !important;
-      transition: background 0.2s !important;
-    }
-
-    #sib-container .sib-form-block__button:hover {
-      background: var(--red-hover) !important;
-    }
-
-    #success-message {
-      font-size: 14px !important;
-      font-family: 'DM Sans', sans-serif !important;
-      background: #efffef !important;
-      border-color: #13ce66 !important;
-      border-radius: 12px !important;
-      color: #086629 !important;
-      margin-bottom: 12px;
-    }
-
-    #error-message {
-      font-size: 14px !important;
-      font-family: 'DM Sans', sans-serif !important;
-      background: #fff0ef !important;
-      border-color: var(--red) !important;
-      border-radius: 12px !important;
-      margin-bottom: 12px;
-    }
-
-    .hint {
-      margin-top: 12px;
-      font-size: 12px;
-      color: #aaa;
-    }
-
-    .flag {
-      margin-top: 36px;
-      font-size: 26px;
-      opacity: 0;
-      animation: up 0.6s ease 0.55s forwards;
-    }
-
-    @keyframes up {
-      from { opacity: 0; transform: translateY(14px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    #sib-container .sib-form-block:first-child,
-    #sib-container .sib-form-block:nth-child(2) { display: none !important; }
-
-    .inline-form {
-      display: flex;
-      gap: 8px;
-      width: 100%;
-    }
-
-    .email-input {
-      flex: 1;
-      background: #ffffff;
-      border: 1.5px solid rgba(213,43,30,0.25);
-      border-radius: 12px;
-      color: #111;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
-      padding: 14px 16px;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    .email-input:focus {
-      border-color: var(--red);
-      box-shadow: 0 0 0 3px rgba(213,43,30,0.12);
-    }
-
-    .email-input::placeholder { color: #bbb; }
-
-    .submit-btn {
-      background: var(--red) !important;
-      color: #fff !important;
-      border-radius: 12px !important;
-      font-family: 'Nunito', sans-serif !important;
-      font-weight: 800 !important;
-      font-size: 15px !important;
-      padding: 14px 20px !important;
-      border: none !important;
-      cursor: pointer !important;
-      white-space: nowrap;
-      transition: background 0.2s !important;
-    }
-
-    .submit-btn:hover { background: var(--red-hover) !important; }
-
-    @media (max-width: 420px) {
-      .inline-form { flex-direction: column; }
-      .submit-btn { width: 100% !important; }
-    }
-
-    .footer {
-      margin-top: 32px;
-      font-size: 12px;
-      color: #aaa;
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .footer a { color: #aaa; text-decoration: none; }
-    .footer a:hover { color: var(--red); }
   </style>
 </head>
 <body>
-<div class="page">
 
-  <div class="badge">✦ Bald verfügbar</div>
-
-  <h1>Nie wieder ein <span>Gewinnspiel</span> verpassen 🇨🇭</h1>
-
-  <div class="form-wrap">
-
-    <div id="msg-success" style="display:none; font-size:14px; font-family:'DM Sans',sans-serif; color:#086629; background:#efffef; border-radius:12px; border:1px solid #13ce66; padding:14px 16px; margin-bottom:12px; text-align:center;">
-      🎉 Danke! Bitte bestätige deine E-Mail-Adresse.
+<header>
+  <div class="header-inner">
+    <a class="logo" href="/">🇨🇭 Gewinnspiele<span>Schweiz</span></a>
+    <div class="header-right">
+      <a class="instagram-link" href="https://instagram.com/gewinnspieleschweiz" target="_blank">@gewinnspieleschweiz</a>
+      <a class="newsletter-btn" href="/newsletter.html">Newsletter 🎁</a>
     </div>
+  </div>
+</header>
 
-    <form class="inline-form" method="POST"
-      action="https://62090d43.sibforms.com/serve/MUIFABqHVL2YIp1m6sBL1WO1POM2y3zFBop89fpaogBM_5vpYcV4XUWW2-ux58tgSvmTsHFABiHdYAXm-S334ZKCj2o008TQDhaKKpxGI1ge_6T4EFQXwU5vJpw-UJrgeJ34X7RDuP7iB4cpUAAmVtVGQYCgmrucsreTFrBBZIHwr44UVaptRHL83fB3HyOEE6WTjZ1QcEp-MEVHyA==">
-      <input class="email-input" type="email" name="EMAIL" placeholder="deine@email.ch" required />
-      <input type="hidden" name="locale" value="de">
-      <input type="hidden" name="email_address_check" value="">
-      <button class="submit-btn" type="submit">Anmelden</button>
-    </form>
+<div class="hero">
+  <div class="hero-inner">
+    <h1>Alle Schweizer <span>Gewinnspiele</span><br>an einem Ort.</h1>
+    <p>Täglich aktualisiert. Kostenlos. Nur Schweizer Angebote.</p>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-num" id="count-total">–</div><div class="stat-label">Aktuelle Gewinnspiele</div></div>
+      <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Kostenlos</div></div>
+      <div class="stat"><div class="stat-num">🇨🇭</div><div class="stat-label">Nur Schweiz</div></div>
+    </div>
+  </div>
+</div>
 
-    <p class="hint">Kostenlos · Kein Spam · Jederzeit abmelden</p>
+<div class="main">
+
+  <input class="search-input" type="text" id="search" placeholder="🔍  Gewinnspiel suchen..." oninput="filterCards()">
+
+  <div class="filters">
+    <span class="filter-label">Kategorie:</span>
+    <button class="filter-btn active" onclick="setFilter('Alle', this)">Alle</button>
+    <button class="filter-btn" onclick="setFilter('Reisen', this)">✈️ Reisen</button>
+    <button class="filter-btn" onclick="setFilter('Food & Drink', this)">🍽️ Food & Drink</button>
+    <button class="filter-btn" onclick="setFilter('Shopping', this)">🛍️ Shopping</button>
+    <button class="filter-btn" onclick="setFilter('Lifestyle', this)">✨ Lifestyle</button>
+    <button class="filter-btn" onclick="setFilter('Tech', this)">📱 Tech</button>
+    <button class="filter-btn" onclick="setFilter('Sport', this)">⚽ Sport</button>
   </div>
 
-  <div class="footer">
-    <a href="/impressum.html">Impressum</a>
-    <span>·</span>
-    <a href="/datenschutz.html">Datenschutz</a>
-    <span>·</span>
-    <a href="https://instagram.com/gewinnspieleschweiz" target="_blank">@gewinnspieleschweiz</a>
+  <div class="section-title" id="section-label">Alle Gewinnspiele</div>
+  <div class="grid" id="grid"><div class="loading">⏳ Gewinnspiele werden geladen...</div></div>
+
+  <div class="newsletter-banner">
+    <div>
+      <h2>Kein Gewinnspiel mehr verpassen 🎁</h2>
+      <p>Trag dich ein und erhalte die besten Schweizer Gewinnspiele direkt ins Postfach.</p>
+    </div>
+    <form class="newsletter-form" method="POST" action="https://62090d43.sibforms.com/serve/MUIFABqHVL2YIp1m6sBL1WO1POM2y3zFBop89fpaogBM_5vpYcV4XUWW2-ux58tgSvmTsHFABiHdYAXm-S334ZKCj2o008TQDhaKKpxGI1ge_6T4EFQXwU5vJpw-UJrgeJ34X7RDuP7iB4cpUAAmVtVGQYCgmrucsreTFrBBZIHwr44UVaptRHL83fB3HyOEE6WTjZ1QcEp-MEVHyA==">
+      <input class="newsletter-input" type="email" name="EMAIL" placeholder="deine@email.ch" required>
+      <input type="hidden" name="locale" value="de">
+      <input type="hidden" name="email_address_check" value="">
+      <button class="newsletter-submit" type="submit">Anmelden</button>
+    </form>
   </div>
 
 </div>
 
+<footer>
+  <p>
+    <a href="/impressum.html">Impressum</a>
+    <a href="/datenschutz.html">Datenschutz</a>
+    <a href="/newsletter.html">Newsletter</a>
+    <a href="https://instagram.com/gewinnspieleschweiz" target="_blank">Instagram</a>
+  </p>
+  <p class="disclaimer">
+    GewinnspielSchweiz veranstaltet keine Gewinnspiele. Wir teilen öffentlich verfügbare Gewinnspiele.<br>
+    Die Teilnahme erfolgt ausschliesslich über den jeweiligen Original-Veranstalter.
+  </p>
+</footer>
+
 <script>
-  // Show success if redirected back from Brevo
-  if (window.location.search.includes('success')) {
-    document.getElementById('msg-success').style.display = 'block';
+  const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTnYZaKWaq94N2sOZfHK6_KsKpCaSeEgqpsWxtYCE8e0S5xcJKmRopzMtorse2hYTHPrA_XIBwv_yHo/pub?gid=0&single=true&output=csv';
+
+  let allData = [];
+  let activeFilter = 'Alle';
+
+  function parseCSV(text) {
+    const lines = text.trim().split('\n');
+    const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+    return lines.slice(1).map(line => {
+      const values = [];
+      let current = '';
+      let inQuotes = false;
+      for (let c of line) {
+        if (c === '"') { inQuotes = !inQuotes; }
+        else if (c === ',' && !inQuotes) { values.push(current.trim()); current = ''; }
+        else { current += c; }
+      }
+      values.push(current.trim());
+      const obj = {};
+      headers.forEach((h, i) => obj[h] = (values[i] || '').replace(/"/g, '').trim());
+      return obj;
+    }).filter(r => r.Titel && r.Titel.length > 0);
   }
+
+  function daysLeft(dateStr) {
+    if (!dateStr) return null;
+    const parts = dateStr.split('.');
+    if (parts.length !== 3) return null;
+    const deadline = new Date(parts[2], parts[1] - 1, parts[0]);
+    const today = new Date(); today.setHours(0,0,0,0);
+    return Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
+  }
+
+  function deadlineLabel(dateStr) {
+    const d = daysLeft(dateStr);
+    if (d === null) return '';
+    if (d < 0) return '⏰ Abgelaufen';
+    if (d === 0) return '⏰ Heute letzter Tag!';
+    if (d === 1) return '⏰ Morgen!';
+    if (d <= 3) return `⏰ Noch ${d} Tage`;
+    return `📅 Noch ${d} Tage`;
+  }
+
+  function categoryEmoji(cat) {
+    const map = { 'Reisen': '✈️', 'Food & Drink': '🍽️', 'Shopping': '🛍️', 'Lifestyle': '✨', 'Tech': '📱', 'Sport': '⚽' };
+    return map[cat] || '🎁';
+  }
+
+  function renderCards(data) {
+    const grid = document.getElementById('grid');
+    const search = document.getElementById('search').value.toLowerCase();
+
+    let filtered = data.filter(r => {
+      const matchFilter = activeFilter === 'Alle' || r.Kategorie === activeFilter;
+      const matchSearch = !search || r.Titel.toLowerCase().includes(search) || (r.Firma||'').toLowerCase().includes(search) || (r.Preis||'').toLowerCase().includes(search);
+      const d = daysLeft(r.Deadline);
+      const notExpired = d === null || d >= 0;
+      return matchFilter && matchSearch && notExpired;
+    });
+
+    filtered.sort((a, b) => (b.Featured === 'Ja') - (a.Featured === 'Ja'));
+
+    document.getElementById('count-total').textContent = filtered.length;
+    document.getElementById('section-label').textContent = activeFilter === 'Alle' ? `Alle Gewinnspiele (${filtered.length})` : `${activeFilter} (${filtered.length})`;
+
+    if (filtered.length === 0) {
+      grid.innerHTML = `<div class="empty"><div class="empty-icon">🔍</div><p>Keine Gewinnspiele gefunden.</p></div>`;
+      return;
+    }
+
+    grid.innerHTML = filtered.map(r => {
+      const d = daysLeft(r.Deadline);
+      const urgent = d !== null && d <= 3;
+      const imgHtml = r.Bild
+        ? `<img class="card-img" src="${r.Bild}" alt="${r.Titel}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+           <div class="card-img-placeholder" style="display:none;">${categoryEmoji(r.Kategorie)}</div>`
+        : `<div class="card-img-placeholder">${categoryEmoji(r.Kategorie)}</div>`;
+
+      return `
+        <a class="card" href="${r.Link}" target="_blank" rel="noopener">
+          ${imgHtml}
+          <div class="card-body">
+            <div class="card-top">
+              <span class="card-category">${r.Kategorie || 'Allgemein'}</span>
+              ${r.Featured === 'Ja' ? '<span class="card-featured">⭐ Featured</span>' : ''}
+            </div>
+            <div class="card-title">${r.Titel}</div>
+            <div class="card-prize">🎁 ${r.Preis}</div>
+            <div class="card-bottom">
+              <span class="card-company">@${r.Firma}</span>
+              <span class="card-deadline ${urgent ? 'urgent' : ''}">${deadlineLabel(r.Deadline)}</span>
+            </div>
+          </div>
+        </a>`;
+    }).join('');
+  }
+
+  function setFilter(cat, btn) {
+    activeFilter = cat;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderCards(allData);
+  }
+
+  function filterCards() { renderCards(allData); }
+
+  async function loadData() {
+    try {
+      const res = await fetch(SHEET_URL);
+      const text = await res.text();
+      allData = parseCSV(text);
+      renderCards(allData);
+    } catch(e) {
+      document.getElementById('grid').innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><p>Gewinnspiele konnten nicht geladen werden.</p></div>`;
+    }
+  }
+
+  loadData();
 </script>
 
 </body>
