@@ -4,48 +4,103 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Impressum – GewinnspielSchweiz</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🇨🇭</text></svg>">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'DM Sans', sans-serif; background: #fff; color: #111; padding: 48px 24px; }
-    .wrap { max-width: 640px; margin: 0 auto; }
-    .back { display: inline-block; margin-bottom: 36px; color: #D52B1E; text-decoration: none; font-size: 14px; font-weight: 500; }
+    :root { --red: #D52B1E; --red-hover: #b82318; --border: #ebebeb; --text: #111; --text-muted: #666; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: #f9f9f9; color: var(--text); }
+
+    nav { position: sticky; top: 0; z-index: 200; background: rgba(255,255,255,0.97); border-bottom: 1px solid var(--border); }
+    .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; height: 62px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-size: 17px; font-weight: 800; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--red); }
+    .nav-links { display: flex; align-items: center; gap: 8px; list-style: none; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--text-muted); text-decoration: none; padding: 6px 12px; border-radius: 8px; transition: all 0.2s; }
+    .nav-links a:hover { background: #fff0ef; color: var(--red); }
+    .dropdown { position: relative; }
+    .dropdown-toggle { font-size: 14px; font-weight: 500; color: var(--text-muted); background: none; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s; }
+    .dropdown-toggle:hover { background: #fff0ef; color: var(--red); }
+    .dropdown-menu { display: none; position: absolute; top: calc(100% + 8px); right: 0; background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 8px; min-width: 160px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+    .dropdown:hover .dropdown-menu { display: block; }
+    .dropdown-menu a { display: block; font-size: 13px; font-weight: 500; color: var(--text-muted); padding: 8px 12px; border-radius: 8px; text-decoration: none; }
+    .dropdown-menu a:hover { background: #fff0ef; color: var(--red); }
+    .nav-cta { background: var(--red); color: #fff !important; padding: 8px 16px !important; border-radius: 8px !important; font-weight: 600 !important; }
+    .nav-cta:hover { background: var(--red-hover) !important; color: #fff !important; }
+
+    .page { max-width: 680px; margin: 0 auto; padding: 60px 24px; }
+    .back { display: inline-flex; align-items: center; gap: 6px; color: var(--red); text-decoration: none; font-size: 14px; font-weight: 500; margin-bottom: 40px; }
     .back:hover { text-decoration: underline; }
-    h1 { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 36px; color: #000; margin-bottom: 8px; }
-    .sub { color: #888; font-size: 14px; margin-bottom: 40px; }
-    h2 { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 18px; color: #000; margin: 32px 0 10px; }
-    p { font-size: 15px; line-height: 1.7; color: #333; }
-    a { color: #D52B1E; }
-    .divider { border: none; border-top: 1px solid #eee; margin: 40px 0; }
+    h1 { font-size: 36px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .sub { color: var(--text-muted); font-size: 14px; margin-bottom: 48px; }
+    h2 { font-size: 16px; font-weight: 700; margin: 36px 0 10px; }
+    p { font-size: 15px; line-height: 1.7; color: #444; margin-bottom: 12px; }
+    a { color: var(--red); }
+    hr { border: none; border-top: 1px solid var(--border); margin: 36px 0; }
+
+    footer { border-top: 1px solid var(--border); margin-top: 80px; padding: 32px 24px; text-align: center; font-size: 13px; color: var(--text-muted); }
+    footer a { color: var(--text-muted); text-decoration: none; margin: 0 10px; }
+    footer a:hover { color: var(--red); }
+    .disclaimer { font-size: 11px; color: #bbb; margin-top: 16px; line-height: 1.6; }
   </style>
 </head>
 <body>
-<div class="wrap">
-  <a class="back" href="/">← Zurück zur Startseite</a>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="/">🇨🇭 Gewinnspiele<span>Schweiz</span></a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/#gewinnspiele">Gewinnspiele</a></li>
+      <li class="dropdown">
+        <button class="dropdown-toggle">Mehr ▾</button>
+        <div class="dropdown-menu">
+          <a href="/impressum.html">Impressum</a>
+          <a href="/datenschutz.html">Datenschutz</a>
+          <a href="https://instagram.com/gewinnspieleschweiz" target="_blank">Instagram</a>
+        </div>
+      </li>
+      <li><a class="nav-cta" href="/newsletter.html">🎁 Newsletter</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page">
+  <a class="back" href="/">← Zurück</a>
   <h1>Impressum</h1>
   <p class="sub">Angaben gemäss schweizerischem Recht</p>
 
   <h2>Verantwortlich für diese Website</h2>
-  <p>
-    Juulian<br>
-    St. Gallen, Schweiz<br>
-    <a href="mailto:www.juulian@gmail.com">www.juulian@gmail.com</a>
-  </p>
+  <p>Juulian<br>St. Gallen, Schweiz<br><a href="mailto:www.juulian@gmail.com">www.juulian@gmail.com</a></p>
 
-  <hr class="divider">
+  <hr>
 
   <h2>Instagram</h2>
   <p><a href="https://instagram.com/gewinnspieleschweiz" target="_blank">@gewinnspieleschweiz</a></p>
 
-  <hr class="divider">
+  <hr>
 
   <h2>Haftungsausschluss</h2>
   <p>GewinnspielSchweiz sammelt und teilt öffentlich zugängliche Gewinnspiel-Informationen. Wir sind nicht Veranstalter der aufgeführten Gewinnspiele und übernehmen keine Haftung für deren Inhalte, Teilnahmebedingungen oder die Ausschüttung von Gewinnen. Die Teilnahme erfolgt ausschliesslich über den jeweiligen Original-Veranstalter.</p>
 
-  <hr class="divider">
+  <hr>
 
   <h2>Urheberrecht</h2>
   <p>Die Inhalte dieser Website sind urheberrechtlich geschützt. Eine Verwendung ohne ausdrückliche Genehmigung ist nicht gestattet.</p>
 </div>
+
+<footer>
+  <p>
+    <a href="/">Home</a>
+    <a href="/#gewinnspiele">Gewinnspiele</a>
+    <a href="/newsletter.html">Newsletter</a>
+    <a href="/impressum.html">Impressum</a>
+    <a href="/datenschutz.html">Datenschutz</a>
+    <a href="https://instagram.com/gewinnspieleschweiz" target="_blank">Instagram</a>
+  </p>
+  <p class="disclaimer">GewinnspielSchweiz veranstaltet keine Gewinnspiele. Teilnahme über den Original-Veranstalter.</p>
+</footer>
+
 </body>
 </html>

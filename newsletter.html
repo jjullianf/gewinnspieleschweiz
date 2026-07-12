@@ -3,276 +3,189 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GewinnspielSchweiz – Bald sind wir da!</title>
-  <meta name="description" content="Alle Schweizer Gewinnspiele an einem Ort." />
+  <title>Newsletter – GewinnspielSchweiz</title>
+  <meta name="description" content="Trag dich ein und erhalte die besten Schweizer Gewinnspiele direkt ins Postfach." />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🇨🇭</text></svg>">
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RWWB1CDLR8"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-RWWB1CDLR8');
-  </script>
-
-  <style>
-    @font-face {
-      font-display: block; font-family: Roboto;
-      src: url(https://assets.brevo.com/font/Roboto/Latin/normal/normal/7529907e9eaf8ebb5220c5f9850e3811.woff2) format("woff2")
-    }
-    #sib-container input::placeholder { font-family: Helvetica, sans-serif; color: #aaa; }
-  </style>
-  <link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --red: #D52B1E; --red-hover: #b82318; --red-light: #fff0ef; --border: #ebebeb; --text: #111; --text-muted: #666; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: #f9f9f9; color: var(--text); min-height: 100vh; }
 
-    :root {
-      --red: #D52B1E;
-      --red-hover: #b82318;
-    }
+    nav { position: sticky; top: 0; z-index: 200; background: rgba(255,255,255,0.97); border-bottom: 1px solid var(--border); }
+    .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; height: 62px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-size: 17px; font-weight: 800; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--red); }
+    .nav-links { display: flex; align-items: center; gap: 8px; list-style: none; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--text-muted); text-decoration: none; padding: 6px 12px; border-radius: 8px; transition: all 0.2s; }
+    .nav-links a:hover { background: #fff0ef; color: var(--red); }
+    .dropdown { position: relative; }
+    .dropdown-toggle { font-size: 14px; font-weight: 500; color: var(--text-muted); background: none; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s; }
+    .dropdown-toggle:hover { background: #fff0ef; color: var(--red); }
+    .dropdown-menu { display: none; position: absolute; top: calc(100% + 8px); right: 0; background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 8px; min-width: 160px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+    .dropdown:hover .dropdown-menu { display: block; }
+    .dropdown-menu a { display: block; font-size: 13px; font-weight: 500; color: var(--text-muted); padding: 8px 12px; border-radius: 8px; text-decoration: none; }
+    .dropdown-menu a:hover { background: #fff0ef; color: var(--red); }
+    .nav-cta { background: var(--red); color: #fff !important; padding: 8px 16px !important; border-radius: 8px !important; font-weight: 600 !important; }
+    .nav-cta:hover { background: var(--red-hover) !important; color: #fff !important; }
 
-    html, body {
-      height: 100%;
-      background: #ffffff;
-      color: #111;
-      font-family: 'DM Sans', sans-serif;
-    }
-
-    .page {
-      min-height: 100vh;
+    .hero {
+      min-height: calc(100vh - 62px);
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 24px 20px;
       text-align: center;
+      padding: 60px 24px;
     }
+
+    .hero-inner { max-width: 520px; }
 
     .badge {
       display: inline-block;
-      background: #fff0ef;
+      background: var(--red-light);
       border: 1px solid rgba(213,43,30,0.3);
       color: var(--red);
-      font-family: 'Nunito', sans-serif;
-      font-weight: 800;
       font-size: 12px;
-      letter-spacing: 0.15em;
+      font-weight: 600;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      padding: 6px 18px;
+      padding: 6px 16px;
       border-radius: 100px;
       margin-bottom: 28px;
-      opacity: 0;
-      animation: up 0.6s ease 0.1s forwards;
     }
 
-    h1 {
-      font-family: 'Nunito', sans-serif;
-      font-weight: 900;
-      font-size: clamp(28px, 5.5vw, 56px);
-      line-height: 1.15;
-      color: #000;
-      margin-bottom: 32px;
-      max-width: 520px;
-      opacity: 0;
-      animation: up 0.6s ease 0.25s forwards;
-    }
-
+    h1 { font-size: clamp(28px, 5vw, 48px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 16px; }
     h1 span { color: var(--red); }
+    .subtitle { font-size: 16px; color: var(--text-muted); line-height: 1.6; margin-bottom: 40px; }
 
-    .form-wrap {
-      width: 100%;
-      max-width: 440px;
-      opacity: 0;
-      animation: up 0.6s ease 0.4s forwards;
-    }
+    .perks { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-bottom: 40px; }
+    .perk { font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
+    .perk-icon { font-size: 16px; }
 
-    .sib-form { background: transparent !important; padding: 0 !important; }
+    .form-wrap { background: #fff; border: 1.5px solid rgba(213,43,30,0.2); border-radius: 20px; padding: 32px; margin-bottom: 16px; }
 
-    #sib-container {
-      background: #fff8f8 !important;
-      border: 1.5px solid rgba(213,43,30,0.2) !important;
-      border-radius: 20px !important;
-      padding: 24px !important;
-      max-width: 100% !important;
-    }
-
-    #sib-container input.input {
-      background: #ffffff !important;
-      border: 1.5px solid rgba(213,43,30,0.2) !important;
-      border-radius: 12px !important;
-      color: #111 !important;
-      font-family: 'DM Sans', sans-serif !important;
-      font-size: 15px !important;
-      padding: 14px 16px !important;
-      width: 100% !important;
-    }
-
-    #sib-container input.input:focus {
-      border-color: var(--red) !important;
-      box-shadow: 0 0 0 3px rgba(213,43,30,0.12) !important;
-      outline: none !important;
-    }
-
-    #sib-container .sib-form-block__button {
-      background: var(--red) !important;
-      color: #fff !important;
-      border-radius: 12px !important;
-      font-family: 'Nunito', sans-serif !important;
-      font-weight: 800 !important;
-      font-size: 16px !important;
-      padding: 14px 28px !important;
-      width: 100% !important;
-      border: none !important;
-      cursor: pointer !important;
-      transition: background 0.2s !important;
-    }
-
-    #sib-container .sib-form-block__button:hover {
-      background: var(--red-hover) !important;
-    }
-
-    #success-message {
-      font-size: 14px !important;
-      font-family: 'DM Sans', sans-serif !important;
-      background: #efffef !important;
-      border-color: #13ce66 !important;
-      border-radius: 12px !important;
-      color: #086629 !important;
-      margin-bottom: 12px;
-    }
-
-    #error-message {
-      font-size: 14px !important;
-      font-family: 'DM Sans', sans-serif !important;
-      background: #fff0ef !important;
-      border-color: var(--red) !important;
-      border-radius: 12px !important;
-      margin-bottom: 12px;
-    }
-
-    .hint {
-      margin-top: 12px;
-      font-size: 12px;
-      color: #aaa;
-    }
-
-    .flag {
-      margin-top: 36px;
-      font-size: 26px;
-      opacity: 0;
-      animation: up 0.6s ease 0.55s forwards;
-    }
-
-    @keyframes up {
-      from { opacity: 0; transform: translateY(14px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    #sib-container .sib-form-block:first-child,
-    #sib-container .sib-form-block:nth-child(2) { display: none !important; }
-
-    .inline-form {
-      display: flex;
-      gap: 8px;
-      width: 100%;
-    }
-
-    .email-input {
-      flex: 1;
-      background: #ffffff;
-      border: 1.5px solid rgba(213,43,30,0.25);
-      border-radius: 12px;
-      color: #111;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
-      padding: 14px 16px;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    .email-input:focus {
-      border-color: var(--red);
-      box-shadow: 0 0 0 3px rgba(213,43,30,0.12);
-    }
-
+    .inline-form { display: flex; gap: 8px; }
+    .email-input { flex: 1; background: #f9f9f9; border: 1.5px solid var(--border); border-radius: 12px; font-family: 'Inter', sans-serif; font-size: 15px; color: var(--text); padding: 14px 16px; outline: none; transition: border-color 0.2s; }
+    .email-input:focus { border-color: var(--red); box-shadow: 0 0 0 3px rgba(213,43,30,0.1); }
     .email-input::placeholder { color: #bbb; }
+    .submit-btn { background: var(--red); color: #fff; border: none; border-radius: 12px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700; padding: 14px 22px; cursor: pointer; white-space: nowrap; transition: background 0.2s; }
+    .submit-btn:hover { background: var(--red-hover); }
 
-    .submit-btn {
-      background: var(--red) !important;
-      color: #fff !important;
-      border-radius: 12px !important;
-      font-family: 'Nunito', sans-serif !important;
-      font-weight: 800 !important;
-      font-size: 15px !important;
-      padding: 14px 20px !important;
-      border: none !important;
-      cursor: pointer !important;
-      white-space: nowrap;
-      transition: background 0.2s !important;
-    }
+    .hint { font-size: 12px; color: #bbb; margin-top: 12px; }
 
-    .submit-btn:hover { background: var(--red-hover) !important; }
+    #msg-success { display: none; font-size: 14px; color: #086629; background: #efffef; border-radius: 12px; border: 1px solid #13ce66; padding: 14px 16px; margin-bottom: 12px; text-align: center; }
 
-    @media (max-width: 420px) {
-      .inline-form { flex-direction: column; }
-      .submit-btn { width: 100% !important; }
-    }
+    footer { border-top: 1px solid var(--border); padding: 32px 24px; text-align: center; font-size: 13px; color: var(--text-muted); }
+    footer a { color: var(--text-muted); text-decoration: none; margin: 0 10px; }
+    footer a:hover { color: var(--red); }
+    .disclaimer { font-size: 11px; color: #bbb; margin-top: 16px; line-height: 1.6; }
 
-    .footer {
-      margin-top: 32px;
-      font-size: 12px;
-      color: #aaa;
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .footer a { color: #aaa; text-decoration: none; }
-    .footer a:hover { color: var(--red); }
+    @media (max-width: 480px) { .inline-form { flex-direction: column; } }
   </style>
 </head>
 <body>
-<div class="page">
 
-  <div class="badge">✦ Bald verfügbar</div>
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="/">🇨🇭 Gewinnspiele<span>Schweiz</span></a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/#gewinnspiele">Gewinnspiele</a></li>
+      <li class="dropdown">
+        <button class="dropdown-toggle">Mehr ▾</button>
+        <div class="dropdown-menu">
+          <a href="/impressum.html">Impressum</a>
+          <a href="/datenschutz.html">Datenschutz</a>
+          <a href="https://instagram.com/gewinnspieleschweiz" target="_blank">Instagram</a>
+        </div>
+      </li>
+      <li><a class="nav-cta" href="/newsletter.html">🎁 Newsletter</a></li>
+    </ul>
+  </div>
+</nav>
 
-  <h1>Nie wieder ein <span>Gewinnspiel</span> verpassen 🇨🇭</h1>
+<div class="hero">
+  <div class="hero-inner">
+    <div class="badge">✦ Kostenlos & kein Spam</div>
+    <h1>Nie wieder ein <span>Gewinnspiel</span> verpassen 🇨🇭</h1>
+    <p class="subtitle">Erhalte die besten Schweizer Gewinnspiele direkt in dein Postfach. Wöchentlich, kostenlos, jederzeit abmeldbar.</p>
 
-  <div class="form-wrap">
-
-    <div id="msg-success" style="display:none; font-size:14px; font-family:'DM Sans',sans-serif; color:#086629; background:#efffef; border-radius:12px; border:1px solid #13ce66; padding:14px 16px; margin-bottom:12px; text-align:center;">
-      🎉 Danke! Bitte bestätige deine E-Mail-Adresse.
+    <div class="perks">
+      <span class="perk"><span class="perk-icon">✅</span> Kostenlos</span>
+      <span class="perk"><span class="perk-icon">🚫</span> Kein Spam</span>
+      <span class="perk"><span class="perk-icon">🇨🇭</span> Nur Schweizer Angebote</span>
+      <span class="perk"><span class="perk-icon">↩️</span> Jederzeit abmeldbar</span>
     </div>
 
-    <form class="inline-form" method="POST"
-      action="https://62090d43.sibforms.com/serve/MUIFABqHVL2YIp1m6sBL1WO1POM2y3zFBop89fpaogBM_5vpYcV4XUWW2-ux58tgSvmTsHFABiHdYAXm-S334ZKCj2o008TQDhaKKpxGI1ge_6T4EFQXwU5vJpw-UJrgeJ34X7RDuP7iB4cpUAAmVtVGQYCgmrucsreTFrBBZIHwr44UVaptRHL83fB3HyOEE6WTjZ1QcEp-MEVHyA==">
-      <input class="email-input" type="email" name="EMAIL" placeholder="deine@email.ch" required />
-      <input type="hidden" name="locale" value="de">
-      <input type="hidden" name="email_address_check" value="">
-      <button class="submit-btn" type="submit">Anmelden</button>
-    </form>
+    <div id="msg-success">🎉 Du bist dabei! Wir halten dich auf dem Laufenden.</div>
 
-    <p class="hint">Kostenlos · Kein Spam · Jederzeit abmelden</p>
+    <div class="form-wrap">
+      <form class="inline-form" id="nl-form" method="POST" action="https://62090d43.sibforms.com/serve/MUIFABqHVL2YIp1m6sBL1WO1POM2y3zFBop89fpaogBM_5vpYcV4XUWW2-ux58tgSvmTsHFABiHdYAXm-S334ZKCj2o008TQDhaKKpxGI1ge_6T4EFQXwU5vJpw-UJrgeJ34X7RDuP7iB4cpUAAmVtVGQYCgmrucsreTFrBBZIHwr44UVaptRHL83fB3HyOEE6WTjZ1QcEp-MEVHyA==">
+        <input class="email-input" type="email" name="EMAIL" placeholder="deine@email.ch" required>
+        <input type="hidden" name="locale" value="de">
+        <input type="hidden" name="email_address_check" value="">
+        <button class="submit-btn" type="submit">Anmelden</button>
+      </form>
+      <p class="hint">Kostenlos · Kein Spam · Jederzeit abmelden</p>
+    </div>
   </div>
-
-  <div class="footer">
-    <a href="/impressum.html">Impressum</a>
-    <span>·</span>
-    <a href="/datenschutz.html">Datenschutz</a>
-    <span>·</span>
-    <a href="https://instagram.com/gewinnspieleschweiz" target="_blank">@gewinnspieleschweiz</a>
-  </div>
-
 </div>
 
+<!-- TOAST -->
+<div id="toast" style="
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  z-index: 9999;
+  max-width: 300px;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+">
+  <div style="width:36px;height:36px;background:#efffef;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🎉</div>
+  <div>
+    <div style="font-weight:700;font-size:14px;color:#111;margin-bottom:2px;">Du bist dabei!</div>
+    <div style="font-size:13px;color:#888;">Wir halten dich auf dem Laufenden.</div>
+  </div>
+  <button onclick="document.getElementById('toast').classList.remove('show')" style="background:none;border:none;color:#ccc;font-size:18px;cursor:pointer;padding:0;margin-left:auto;flex-shrink:0;">✕</button>
+</div>
+<style>#toast.show { transform: translateY(0); opacity: 1; }</style>
+
+<footer>
+  <p>
+    <a href="/">Home</a>
+    <a href="/#gewinnspiele">Gewinnspiele</a>
+    <a href="/newsletter.html">Newsletter</a>
+    <a href="/impressum.html">Impressum</a>
+    <a href="/datenschutz.html">Datenschutz</a>
+    <a href="https://instagram.com/gewinnspieleschweiz" target="_blank">Instagram</a>
+  </p>
+  <p class="disclaimer">GewinnspielSchweiz veranstaltet keine Gewinnspiele. Teilnahme über den Original-Veranstalter.</p>
+</footer>
+
 <script>
-  // Show success if redirected back from Brevo
-  if (window.location.search.includes('success')) {
-    document.getElementById('msg-success').style.display = 'block';
-  }
+  document.getElementById('nl-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const emailInput = this.querySelector('input[type="email"]');
+    if (!emailInput.value) return;
+    const formData = new FormData(this);
+    // Show toast immediately - don't wait for CORS-blocked fetch
+    emailInput.value = '';
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 4000);
+    // Send in background
+    fetch(this.action, { method: 'POST', body: formData, mode: 'no-cors' }).catch(() => {});
+  });
 </script>
 
 </body>

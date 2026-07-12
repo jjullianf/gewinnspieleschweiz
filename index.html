@@ -726,15 +726,6 @@
     <ul class="nav-links">
       <li><a href="/">Home</a></li>
       <li><a href="#gewinnspiele">Gewinnspiele</a></li>
-      <li><a href="/newsletter.html">Newsletter</a></li>
-      <li class="dropdown">
-        <button class="dropdown-toggle">Mehr ▾</button>
-        <div class="dropdown-menu">
-          <a href="/impressum.html">Impressum</a>
-          <a href="/datenschutz.html">Datenschutz</a>
-          <a href="https://instagram.com/gewinnspieleschweiz" target="_blank">Instagram</a>
-        </div>
-      </li>
       <li>
         <button class="participated-nav-btn" id="participated-nav-btn" onclick="toggleParticipatedFilter()" title="Meine Teilnahmen">
           ✅ <span id="participated-count">0</span>
@@ -1132,26 +1123,26 @@
 
   // Toast popup
   function showToast() {
-    document.getElementById('toast').classList.add('show');
-    setTimeout(() => document.getElementById('toast').classList.remove('show'), 4000);
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 4000);
   }
 
-  // Intercept all newsletter forms
-  document.querySelectorAll('form').forEach(form => {
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const emailInput = this.querySelector('input[type="email"]');
-      if (!emailInput || !emailInput.value) return;
-      const formData = new FormData(this);
-      fetch(this.action, { method: 'POST', body: formData, mode: 'no-cors' })
-        .finally(() => {
-          emailInput.value = '';
-          if (document.getElementById('modal-overlay').classList.contains('open')) {
-            closeModalDirect();
-          }
-          showToast();
-        });
-    });
+  // Intercept all newsletter forms – use event delegation to catch dynamic modal forms too
+  document.addEventListener('submit', function(e) {
+    const form = e.target;
+    if (!form.action || !form.action.includes('sibforms.com')) return;
+    e.preventDefault();
+    const emailInput = form.querySelector('input[type="email"]');
+    if (!emailInput || !emailInput.value) return;
+    const formData = new FormData(form);
+    // Show toast immediately
+    emailInput.value = '';
+    const overlay = document.getElementById('modal-overlay');
+    if (overlay && overlay.classList.contains('open')) closeModalDirect();
+    showToast();
+    // Send in background
+    fetch(form.action, { method: 'POST', body: formData, mode: 'no-cors' }).catch(() => {});
   });
 
   // Load
