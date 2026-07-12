@@ -612,6 +612,100 @@
 
     .loading { text-align: center; padding: 60px; color: var(--text-muted); grid-column: 1 / -1; font-size: 15px; }
 
+    .sort-btn {
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .sort-btn:hover { border-color: var(--red); color: var(--red); }
+    .sort-btn.active { background: var(--red); border-color: var(--red); color: #fff; }
+
+    /* Participated nav button */
+    .participated-nav-btn {
+      display: none;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.2s;
+      align-items: center;
+      gap: 4px;
+    }
+
+    nav.scrolled .participated-nav-btn {
+      background: #f0fff4;
+      border-color: #13ce66;
+      color: #086629;
+    }
+
+    .participated-nav-btn:hover { opacity: 0.8; }
+    .participated-nav-btn.active-filter { background: #13ce66 !important; border-color: #13ce66 !important; color: #fff !important; }
+
+    /* Card done state */
+    .card.done {
+      opacity: 0.45;
+      filter: grayscale(40%);
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .card.done:hover {
+      opacity: 0.55;
+      box-shadow: none !important;
+      transform: none !important;
+    }
+
+    .card-done-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #13ce66;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 100px;
+      z-index: 2;
+    }
+
+    .card-img-wrap {
+      position: relative;
+    }
+
+    /* Participated toggle button on card */
+    .card-participate-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255,255,255,0.9);
+      border: 1.5px solid #e0e0e0;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      cursor: pointer;
+      color: #666;
+      transition: all 0.2s;
+      z-index: 3;
+      white-space: nowrap;
+    }
+
+    .card-participate-btn:hover { border-color: #13ce66; color: #086629; background: #fff; }
+    .card-participate-btn.done { background: #13ce66; border-color: #13ce66; color: #fff; }
+
     @media (max-width: 600px) {
       .nav-inner { padding: 0 16px; }
       .main { padding: 32px 16px; }
@@ -640,6 +734,11 @@
           <a href="/datenschutz.html">Datenschutz</a>
           <a href="https://instagram.com/gewinnspieleschweiz" target="_blank">Instagram</a>
         </div>
+      </li>
+      <li>
+        <button class="participated-nav-btn" id="participated-nav-btn" onclick="toggleParticipatedFilter()" title="Meine Teilnahmen">
+          ✅ <span id="participated-count">0</span>
+        </button>
       </li>
       <li><a class="nav-cta" href="/newsletter.html">🎁 Newsletter</a></li>
     </ul>
@@ -690,7 +789,11 @@
     <button class="filter-btn" onclick="setFilter('Lifestyle', this)">✨ Lifestyle</button>
   </div>
 
-  <div class="grid" id="grid">
+  <div style="display:flex; gap:8px; margin-bottom:24px; align-items:center;">
+    <span class="filter-label">Sortieren:</span>
+    <button class="sort-btn active" id="sort-asc" onclick="setSort('asc', this)">⏰ Bald ablaufend</button>
+    <button class="sort-btn" id="sort-desc" onclick="setSort('desc', this)">📅 Längste Laufzeit</button>
+  </div>
     <div class="loading">⏳ Gewinnspiele werden geladen...</div>
   </div>
 
@@ -737,6 +840,7 @@
 
   let allData = [];
   let activeFilter = 'Alle';
+  let activeSort = 'asc';
 
   // Navbar scroll effect
   window.addEventListener('scroll', () => {
@@ -809,9 +913,12 @@
   function renderCards(data) {
     const grid = document.getElementById('grid');
     const search = document.getElementById('search').value.toLowerCase();
+    const participated = getParticipated();
 
     let filtered = data.filter(r => {
-      const matchFilter = matchesFilter(r.Kategorie, activeFilter);
+      const matchFilter = activeFilter === '__participated__'
+        ? participated.has(getCardId(r))
+        : matchesFilter(r.Kategorie, activeFilter);
       const matchSearch = !search ||
         (r.Titel||'').toLowerCase().includes(search) ||
         (r.Firma||'').toLowerCase().includes(search) ||
@@ -820,28 +927,47 @@
       return matchFilter && matchSearch && (d === null || d >= 0);
     });
 
-    filtered.sort((a, b) => (b.Featured === 'Ja') - (a.Featured === 'Ja'));
+    // Featured always first, then sort by deadline
+    filtered.sort((a, b) => {
+      if (b.Featured === 'Ja' && a.Featured !== 'Ja') return 1;
+      if (a.Featured === 'Ja' && b.Featured !== 'Ja') return -1;
+      const dA = daysLeft(a.Deadline) ?? 9999;
+      const dB = daysLeft(b.Deadline) ?? 9999;
+      return activeSort === 'asc' ? dA - dB : dB - dA;
+    });
 
     document.getElementById('section-count').textContent = `${filtered.length} Gewinnspiele`;
 
     if (filtered.length === 0) {
-      grid.innerHTML = `<div class="empty"><div class="empty-icon">🔍</div><p>Keine Gewinnspiele gefunden.</p></div>`;
+      grid.innerHTML = `<div class="empty"><div class="empty-icon">${activeFilter === '__participated__' ? '✅' : '🔍'}</div><p>${activeFilter === '__participated__' ? 'Du hast noch bei keinem Gewinnspiel mitgemacht.' : 'Keine Gewinnspiele gefunden.'}</p></div>`;
       return;
     }
 
-    grid.innerHTML = filtered.map((r, i) => {
+    grid.innerHTML = filtered.map((r) => {
       const d = daysLeft(r.Deadline);
       const urgent = d !== null && d <= 3;
       const tags = getTags(r.Kategorie);
+      const cardId = getCardId(r);
+      const isDone = participated.has(cardId);
+      const idx = allData.indexOf(r);
+
       const imgHtml = r.Bild
         ? `<img class="card-img" src="${r.Bild}" alt="${r.Titel}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
            <div class="card-img-placeholder" style="display:none;">${categoryEmoji(r.Kategorie)}</div>`
         : `<div class="card-img-placeholder">${categoryEmoji(r.Kategorie)}</div>`;
 
       return `
-        <div class="card" onclick="openModal(${allData.indexOf(r)})">
-          ${imgHtml}
-          <div class="card-body">
+        <div class="card ${isDone ? 'done' : ''}" id="card-${cardId}">
+          <div class="card-img-wrap" onclick="openModal(${idx})">
+            ${imgHtml}
+            ${isDone ? '<div class="card-done-badge">✅ Mitgemacht</div>' : ''}
+            <button class="card-participate-btn ${isDone ? 'done' : ''}"
+              onclick="event.stopPropagation(); toggleParticipated('${cardId}')"
+              title="${isDone ? 'Als nicht mitgemacht markieren' : 'Als mitgemacht markieren'}">
+              ${isDone ? '✅ Mitgemacht' : '+ Mitgemacht'}
+            </button>
+          </div>
+          <div class="card-body" onclick="openModal(${idx})">
             <div class="card-top">
               <div class="card-tags">${tags.map(t => `<span class="card-tag">${t}</span>`).join('')}</div>
               ${r.Featured === 'Ja' ? '<span class="card-featured">⭐ Featured</span>' : ''}
@@ -855,6 +981,74 @@
           </div>
         </div>`;
     }).join('');
+  }
+
+  // ── localStorage helpers ──
+  function getCardId(r) {
+    return (r.Titel + r.Firma).replace(/[^a-zA-Z0-9]/g, '').substring(0, 40);
+  }
+
+  function getParticipated() {
+    try { return new Set(JSON.parse(localStorage.getItem('gws_participated') || '[]')); }
+    catch { return new Set(); }
+  }
+
+  function saveParticipated(set) {
+    try { localStorage.setItem('gws_participated', JSON.stringify([...set])); } catch {}
+  }
+
+  function updateParticipatedCounter() {
+    const count = getParticipated().size;
+    document.getElementById('participated-count').textContent = count;
+    const btn = document.getElementById('participated-nav-btn');
+    if (btn) btn.style.display = count > 0 ? 'inline-flex' : 'none';
+  }
+
+  function toggleParticipated(cardId) {
+    const set = getParticipated();
+    if (set.has(cardId)) {
+      set.delete(cardId);
+      gtag('event', 'unmark_participated', { card_id: cardId });
+    } else {
+      set.add(cardId);
+      gtag('event', 'mark_participated', { card_id: cardId });
+    }
+    saveParticipated(set);
+    updateParticipatedCounter();
+    renderCards(allData);
+  }
+
+  let showingParticipated = false;
+
+  function toggleParticipatedFilter() {
+    showingParticipated = !showingParticipated;
+    const btn = document.getElementById('participated-nav-btn');
+    btn.classList.toggle('active-filter', showingParticipated);
+    if (showingParticipated) {
+      activeFilter = '__participated__';
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    } else {
+      activeFilter = 'Alle';
+      document.querySelector('.filter-btn').classList.add('active');
+    }
+    renderCards(allData);
+    document.getElementById('gewinnspiele').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // ── GA4 tracking ──
+  function trackExternalClick(titel, firma, link) {
+    gtag('event', 'giveaway_click', {
+      giveaway_title: titel,
+      giveaway_firma: firma,
+      outbound_url: link
+    });
+  }
+
+  function setSort(dir, btn) {
+    activeSort = dir;
+    document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderCards(allData);
   }
 
   function setFilter(cat, btn) {
@@ -904,7 +1098,7 @@
         ${r.Beschreibung ? `<div class="modal-desc">${r.Beschreibung}</div>` : ''}
         ${stepsHtml}
         ${r.Deadline ? `<div class="modal-deadline">⏰ Teilnahmeschluss: <strong class="${urgent ? 'urgent' : ''}">${r.Deadline}</strong></div>` : ''}
-        <a class="modal-cta" href="${r.Link}" target="_blank" rel="noopener">Jetzt beim Original mitmachen →</a>
+        <a class="modal-cta" href="${r.Link}" target="_blank" rel="noopener" onclick="trackExternalClick('${r.Titel.replace(/'/g,"\\'")}', '${r.Firma}', '${r.Link}')">Jetzt beim Original mitmachen →</a>
         <div class="modal-divider"><span>oder</span></div>
         <div class="modal-newsletter">
           <h3>Kein Gewinnspiel mehr verpassen 🎁</h3>
@@ -965,6 +1159,7 @@
       const text = await res.text();
       allData = parseCSV(text);
       renderCards(allData);
+      updateParticipatedCounter();
     } catch(e) {
       document.getElementById('grid').innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><p>Gewinnspiele konnten nicht geladen werden.</p></div>`;
     }
