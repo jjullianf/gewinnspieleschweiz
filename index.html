@@ -54,122 +54,61 @@
     html { scroll-behavior: smooth; }
     body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
+
     /* ── NAVBAR ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 200;
-      background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255,255,255,0.2);
-      transition: background 0.3s, border-color 0.3s;
-    }
-
-    nav.scrolled {
-      background: rgba(255,255,255,0.97);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .nav-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 24px;
-      height: 62px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .nav-logo {
-      font-size: 17px;
-      font-weight: 800;
-      color: #fff;
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-
-    nav.scrolled .nav-logo { color: var(--text); }
-    .nav-logo span { color: #fff; transition: color 0.3s; }
-    nav.scrolled .nav-logo span { color: var(--red); }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-size: 14px;
-      font-weight: 500;
-      color: rgba(255,255,255,0.9);
-      text-decoration: none;
-      padding: 6px 12px;
-      border-radius: 8px;
-      transition: all 0.2s;
-    }
-
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; transition: background 0.3s, border-color 0.3s; background: rgba(255,255,255,0.1); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.15); }
+    nav.scrolled { background: rgba(255,255,255,0.97); border-bottom: 1px solid var(--border); }
+    .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 20px; height: 62px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
+    .nav-logo img { height: 36px; width: 36px; border-radius: 8px; object-fit: cover; }
+    .nav-logo-text { font-size: 15px; font-weight: 800; color: #fff; transition: color 0.3s; }
+    nav.scrolled .nav-logo-text { color: var(--text); }
+    .nav-logo-text span { color: #fff; transition: color 0.3s; }
+    nav.scrolled .nav-logo-text span { color: var(--red); }
+    .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.9); text-decoration: none; padding: 6px 10px; border-radius: 8px; transition: all 0.2s; white-space: nowrap; }
     nav.scrolled .nav-links a { color: var(--text-muted); }
     .nav-links a:hover { background: rgba(255,255,255,0.2); color: #fff; }
     nav.scrolled .nav-links a:hover { background: var(--red-light); color: var(--red); }
-
-    /* Dropdown */
     .dropdown { position: relative; }
-
-    .dropdown-toggle {
-      font-size: 14px;
-      font-weight: 500;
-      color: rgba(255,255,255,0.9);
-      background: none;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-family: 'Inter', sans-serif;
-      transition: all 0.2s;
-    }
-
+    .dropdown-toggle { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.9); background: none; border: none; padding: 6px 10px; border-radius: 8px; cursor: pointer; font-family: "Inter", sans-serif; transition: all 0.2s; white-space: nowrap; }
     nav.scrolled .dropdown-toggle { color: var(--text-muted); }
-
-    .dropdown-menu {
-      display: none;
-      position: absolute;
-      top: calc(100% + 8px);
-      right: 0;
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 8px;
-      min-width: 160px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-    }
-
+    .dropdown-toggle:hover { background: rgba(255,255,255,0.2); color: #fff; }
+    nav.scrolled .dropdown-toggle:hover { background: var(--red-light); color: var(--red); }
+    .dropdown-menu { display: none; position: absolute; top: calc(100% + 8px); right: 0; background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 8px; min-width: 180px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); z-index: 300; }
     .dropdown:hover .dropdown-menu { display: block; }
-
-    .dropdown-menu a {
-      display: block;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-muted) !important;
-      background: none !important;
-      padding: 8px 12px;
-      border-radius: 8px;
-      text-decoration: none;
-    }
-
-    .dropdown-menu a:hover { background: var(--red-light) !important; color: var(--red) !important; }
-
-    .nav-cta {
-      background: var(--red);
-      color: #fff !important;
-      padding: 8px 16px !important;
-      border-radius: 8px !important;
-      font-weight: 600 !important;
-    }
-
+    .dropdown-menu a { display: block; font-size: 13px; font-weight: 500; color: var(--text-muted); padding: 8px 12px; border-radius: 8px; text-decoration: none; }
+    .dropdown-menu a:hover { background: var(--red-light); color: var(--red); }
+    .nav-cta { background: var(--red) !important; color: #fff !important; padding: 8px 14px !important; border-radius: 8px !important; font-weight: 600 !important; }
     .nav-cta:hover { background: var(--red-hover) !important; color: #fff !important; }
     nav.scrolled .nav-cta { color: #fff !important; }
+    .participated-nav-btn { display: none; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; font-family: "Inter", sans-serif; font-size: 13px; font-weight: 600; padding: 6px 12px; border-radius: 100px; cursor: pointer; transition: all 0.2s; align-items: center; gap: 4px; }
+    nav.scrolled .participated-nav-btn { background: #f0fff4; border-color: #13ce66; color: #086629; }
+    .participated-nav-btn:hover { opacity: 0.8; }
+    .participated-nav-btn.active-filter { background: #13ce66 !important; border-color: #13ce66 !important; color: #fff !important; }
+
+    /* Mobile */
+    .nav-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 6px; color: #fff; transition: color 0.3s; }
+    nav.scrolled .nav-hamburger { color: var(--text); }
+    .nav-hamburger svg { width: 22px; height: 22px; }
+    .nav-mobile-menu { display: none; position: fixed; inset: 0; background: #fff; z-index: 500; padding: 20px; overflow-y: auto; }
+    .nav-mobile-menu.open { display: block; }
+    .nav-mobile-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+    .nav-mobile-close { background: none; border: none; cursor: pointer; font-size: 24px; color: var(--text-muted); }
+    .nav-mobile-links { display: flex; flex-direction: column; gap: 4px; }
+    .nav-mobile-links a { font-size: 17px; font-weight: 600; color: var(--text); text-decoration: none; padding: 14px 16px; border-radius: 12px; display: block; transition: all 0.15s; }
+    .nav-mobile-links a:hover { background: var(--red-light); color: var(--red); }
+    .nav-mobile-divider { height: 1px; background: var(--border); margin: 8px 0; }
+    .nav-mobile-section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); padding: 8px 16px 4px; }
+    .nav-mobile-cta { background: var(--red) !important; color: #fff !important; text-align: center; margin-top: 12px; }
+    .nav-mobile-cta:hover { background: var(--red-hover) !important; }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: block; }
+      .nav-logo-text { display: none; }
+    }
+
 
     /* ── HERO ── */
     .hero {
@@ -737,20 +676,58 @@
 <!-- NAVBAR -->
 <nav id="navbar">
   <div class="nav-inner">
-    <a class="nav-logo" href="/">🇨🇭 Gewinnspiele<span>Schweiz</span></a>
+    <a class="nav-logo" href="/">
+      <img src="/logo.png" alt="GewinnspielSchweiz Logo">
+      <span class="nav-logo-text">Gewinnspiele<span>Schweiz</span></span>
+    </a>
     <ul class="nav-links">
       <li><a href="/">Home</a></li>
       <li><a href="#gewinnspiele">Gewinnspiele</a></li>
+      <li><a href="/blog.html">Blog</a></li>
       <li><a href="/kontakt.html">Für Unternehmen</a></li>
       <li>
         <button class="participated-nav-btn" id="participated-nav-btn" onclick="toggleParticipatedFilter()" title="Meine Teilnahmen">
           ✅ <span id="participated-count">0</span>
         </button>
       </li>
-      <li><a class="nav-cta" href="/newsletter.html">🎁 Newsletter</a></li>
+      <li class="dropdown">
+        <button class="dropdown-toggle">Mehr ▾</button>
+        <div class="dropdown-menu">
+          <a href="/impressum.html">Impressum</a>
+          <a href="/datenschutz.html">Datenschutz</a>
+          <a href="https://instagram.com/gewinnspieleschweiz" target="_blank">Instagram</a>
+        </div>
+      </li>
+      <li><a class="nav-cta" href="/newsletter.html">Newsletter</a></li>
     </ul>
+    <button class="nav-hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')" aria-label="Menu öffnen">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
   </div>
 </nav>
+
+<!-- Mobile Menu -->
+<div class="nav-mobile-menu" id="mobileMenu">
+  <div class="nav-mobile-header">
+    <a class="nav-logo" href="/">
+      <img src="/logo.png" alt="GewinnspielSchweiz Logo" style="height:36px;width:36px;border-radius:8px;">
+    </a>
+    <button class="nav-mobile-close" onclick="document.getElementById('mobileMenu').classList.remove('open')">✕</button>
+  </div>
+  <div class="nav-mobile-links">
+    <a href="/">Home</a>
+    <a href="#gewinnspiele">Gewinnspiele</a>
+    <div class="nav-mobile-divider"></div>
+    <div class="nav-mobile-section-label">Mehr</div>
+    <a href="/blog.html">Blog</a>
+    <a href="/kontakt.html">Für Unternehmen</a>
+    <a href="/impressum.html">Impressum</a>
+    <a href="/datenschutz.html">Datenschutz</a>
+    <a href="https://instagram.com/gewinnspieleschweiz" target="_blank">Instagram</a>
+    <div class="nav-mobile-divider"></div>
+    <a class="nav-mobile-cta" href="/newsletter.html">Newsletter</a>
+  </div>
+</div>
 
 <!-- HERO -->
 <section class="hero">
