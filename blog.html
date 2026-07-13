@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog – Schweizer Gewinnspiele Tipps & Übersichten | GewinnspielSchweiz</title>
+  <meta name="description" content="Aktuelle Blog-Artikel zu Schweizer Gewinnspielen, Wettbewerben und Verlosungen. Tipps, Übersichten und die besten Gewinnchancen." />
+  <link rel="canonical" href="https://gewinnspieleschweiz.ch/blog.html" />
+  <link rel="icon" href="/favicon.png" type="image/png">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RWWB1CDLR8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-RWWB1CDLR8');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --red: #D52B1E; --red-hover: #b82318; --red-light: #fff0ef; --border: #ebebeb; --text: #111; --text-muted: #666; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: #f9f9f9; color: var(--text); }
+
+    nav { position: sticky; top: 0; z-index: 200; background: rgba(255,255,255,0.97); border-bottom: 1px solid var(--border); }
+    .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; height: 62px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-size: 17px; font-weight: 800; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--red); }
+    .nav-links { display: flex; align-items: center; gap: 8px; list-style: none; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--text-muted); text-decoration: none; padding: 6px 12px; border-radius: 8px; transition: all 0.2s; }
+    .nav-links a:hover { background: var(--red-light); color: var(--red); }
+    .dropdown { position: relative; }
+    .dropdown-toggle { font-size: 14px; font-weight: 500; color: var(--text-muted); background: none; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s; }
+    .dropdown-toggle:hover { background: var(--red-light); color: var(--red); }
+    .dropdown-menu { display: none; position: absolute; top: calc(100% + 8px); right: 0; background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 8px; min-width: 160px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+    .dropdown:hover .dropdown-menu { display: block; }
+    .dropdown-menu a { display: block; font-size: 13px; font-weight: 500; color: var(--text-muted); padding: 8px 12px; border-radius: 8px; text-decoration: none; }
+    .dropdown-menu a:hover { background: var(--red-light); color: var(--red); }
+    .nav-cta { background: var(--red); color: #fff !important; padding: 8px 16px !important; border-radius: 8px !important; font-weight: 600 !important; }
+    .nav-cta:hover { background: var(--red-hover) !important; color: #fff !important; }
+
+    .page { max-width: 1100px; margin: 0 auto; padding: 56px 24px 80px; }
+
+    .page-header { margin-bottom: 48px; }
+    .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); margin-bottom: 12px; }
+    .page-header h1 { font-size: clamp(28px, 4vw, 42px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 12px; }
+    .page-header p { font-size: 16px; color: var(--text-muted); max-width: 500px; line-height: 1.6; }
+
+    /* GRID */
+    .blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+
+    /* CARD */
+    .blog-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      transition: box-shadow 0.2s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .blog-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.09); transform: translateY(-3px); }
+
+    .blog-card-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; background: #f0f0f0; display: block; }
+
+    .blog-card-body { padding: 24px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+
+    .blog-card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .blog-card-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--red); background: var(--red-light); padding: 3px 8px; border-radius: 100px; }
+
+    .blog-card-title { font-size: 17px; font-weight: 800; line-height: 1.3; letter-spacing: -0.01em; }
+    .blog-card-excerpt { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+
+    .blog-card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border); }
+    .blog-card-date { font-size: 12px; color: var(--text-muted); }
+    .blog-card-read { font-size: 13px; font-weight: 600; color: var(--red); }
+
+    /* COMING SOON CARD */
+    .blog-card-soon { background: #fafafa; border: 1.5px dashed var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 24px; text-align: center; min-height: 280px; }
+    .blog-card-soon .soon-icon { font-size: 32px; margin-bottom: 12px; }
+    .blog-card-soon .soon-title { font-size: 15px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; }
+    .blog-card-soon .soon-text { font-size: 13px; color: #bbb; }
+
+    footer { border-top: 1px solid var(--border); margin-top: 60px; padding: 32px 24px; text-align: center; font-size: 13px; color: var(--text-muted); }
+    footer a { color: var(--text-muted); text-decoration: none; margin: 0 10px; }
+    footer a:hover { color: var(--red); }
+    .disclaimer { font-size: 11px; color: #bbb; margin-top: 16px; line-height: 1.6; }
+
+    @media (max-width: 600px) { .page { padding: 32px 16px; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="/">🇨🇭 Gewinnspiele<span>Schweiz</span></a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/#gewinnspiele">Gewinnspiele</a></li>
+      <li><a href="/kontakt.html">Für Unternehmen</a></li>
+      <li class="dropdown">
+        <button class="dropdown-toggle">Mehr ▾</button>
+        <div class="dropdown-menu">
+          <a href="/blog.html">Blog</a>
+          <a href="/impressum.html">Impressum</a>
+          <a href="/datenschutz.html">Datenschutz</a>
+          <a href="https://instagram.com/gewinnspieleschweiz" target="_blank">Instagram</a>
+        </div>
+      </li>
+      <li><a class="nav-cta" href="/newsletter.html">Newsletter</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page">
+
+  <div class="page-header">
+    <div class="eyebrow">Blog</div>
+    <h1>Tipps & Übersichten</h1>
+    <p>Aktuelle Artikel zu den besten Schweizer Gewinnspielen, Wettbewerben und Verlosungen.</p>
+  </div>
+
+  <div class="blog-grid">
+
+    <!-- Artikel 1 -->
+    <a class="blog-card" href="/blog/ferien-gewinnspiele-sommer-2026.html">
+      <img class="blog-card-img" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=640&auto=format&fit=crop&q=80" alt="Ferien Gewinnspiele Sommer 2026">
+      <div class="blog-card-body">
+        <div class="blog-card-tags">
+          <span class="blog-card-tag">Reisen</span>
+          <span class="blog-card-tag">Sommer 2026</span>
+        </div>
+        <div class="blog-card-title">Die besten Ferien Gewinnspiele Sommer 2026</div>
+        <div class="blog-card-excerpt">Reisegutscheine bis CHF 10'000, Familienferien und Traumreisen mit SWISS – die drei besten verifizierten Ferien-Gewinnspiele im Überblick.</div>
+        <div class="blog-card-footer">
+          <span class="blog-card-date">13. Juli 2026</span>
+          <span class="blog-card-read">Lesen →</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Platzhalter 2 -->
+    <div class="blog-card blog-card-soon">
+      <div class="soon-icon">✍️</div>
+      <div class="soon-title">Nächster Artikel</div>
+      <div class="soon-text">Bald verfügbar – abonniere den Newsletter um als Erstes informiert zu werden.</div>
+    </div>
+
+    <!-- Platzhalter 3 -->
+    <div class="blog-card blog-card-soon">
+      <div class="soon-icon">✍️</div>
+      <div class="soon-title">Nächster Artikel</div>
+      <div class="soon-text">Bald verfügbar – abonniere den Newsletter um als Erstes informiert zu werden.</div>
+    </div>
+
+  </div>
+
+</div>
+
+<footer>
+  <p>
+    <a href="/">Home</a>
+    <a href="/#gewinnspiele">Gewinnspiele</a>
+    <a href="/blog.html">Blog</a>
+    <a href="/newsletter.html">Newsletter</a>
+    <a href="/kontakt.html">Für Unternehmen</a>
+    <a href="/impressum.html">Impressum</a>
+    <a href="/datenschutz.html">Datenschutz</a>
+  </p>
+  <p class="disclaimer">GewinnspielSchweiz veranstaltet keine Gewinnspiele. Teilnahme über den Original-Veranstalter.</p>
+</footer>
+
+</body>
+</html>
