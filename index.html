@@ -608,6 +608,16 @@
     .participated-nav-btn:hover { opacity: 0.8; }
     .participated-nav-btn.active-filter { background: #13ce66 !important; border-color: #13ce66 !important; color: #fff !important; }
 
+    /* ── NEWSLETTER CONFIRM CARD ── */
+    .nl-confirm { background: #fff; border: 1.5px solid #13ce66; border-radius: 12px; padding: 16px 18px; display: flex; align-items: center; gap: 12px; animation: nlPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    .nl-confirm-icon { font-size: 22px; flex-shrink: 0; }
+    .nl-confirm-title { font-weight: 700; font-size: 14px; color: #111; margin-bottom: 2px; }
+    .nl-confirm-text { font-size: 13px; color: #666; }
+    .nl-confirm-dark { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(8px); justify-content: center; text-align: left; }
+    .nl-confirm-dark .nl-confirm-title { color: #fff; }
+    .nl-confirm-dark .nl-confirm-text { color: rgba(255,255,255,0.75); }
+    @keyframes nlPop { 0% { transform: scale(0.92); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
     /* Card done state */
     .card.done {
       opacity: 0.45;
@@ -736,13 +746,15 @@
     <div class="hero-badge">🇨🇭 Täglich aktualisiert</div>
     <h1>Alle Schweizer<br><span>Gewinnspiele</span><br>an einem Ort.</h1>
     <p>Kostenlos mitmachen. Nie wieder eine Verlosung verpassen.</p>
-    <form class="hero-form" method="POST" action="https://62090d43.sibforms.com/serve/MUIFABqHVL2YIp1m6sBL1WO1POM2y3zFBop89fpaogBM_5vpYcV4XUWW2-ux58tgSvmTsHFABiHdYAXm-S334ZKCj2o008TQDhaKKpxGI1ge_6T4EFQXwU5vJpw-UJrgeJ34X7RDuP7iB4cpUAAmVtVGQYCgmrucsreTFrBBZIHwr44UVaptRHL83fB3HyOEE6WTjZ1QcEp-MEVHyA==">
-      <input class="hero-input" type="email" name="EMAIL" placeholder="deine@email.ch" required>
-      <input type="hidden" name="locale" value="de">
-      <input type="hidden" name="email_address_check" value="">
-      <button class="hero-btn" type="submit">Anmelden</button>
-    </form>
-    <p class="hero-hint">Kostenlos · Kein Spam · Jederzeit abmeldbar</p>
+    <div id="hero-nl-wrap" data-nl-wrap="dark">
+      <form class="hero-form" method="POST" action="https://62090d43.sibforms.com/serve/MUIFABqHVL2YIp1m6sBL1WO1POM2y3zFBop89fpaogBM_5vpYcV4XUWW2-ux58tgSvmTsHFABiHdYAXm-S334ZKCj2o008TQDhaKKpxGI1ge_6T4EFQXwU5vJpw-UJrgeJ34X7RDuP7iB4cpUAAmVtVGQYCgmrucsreTFrBBZIHwr44UVaptRHL83fB3HyOEE6WTjZ1QcEp-MEVHyA==">
+        <input class="hero-input" type="email" name="EMAIL" placeholder="deine@email.ch" required>
+        <input type="hidden" name="locale" value="de">
+        <input type="hidden" name="email_address_check" value="">
+        <button class="hero-btn" type="submit">Anmelden</button>
+      </form>
+      <p class="hero-hint">Kostenlos · Kein Spam · Jederzeit abmeldbar</p>
+    </div>
   </div>
   <a class="hero-scroll" href="#gewinnspiele">
     Gewinnspiele entdecken
@@ -789,12 +801,14 @@
       <h2>Kein Gewinnspiel mehr verpassen 🎁</h2>
       <p>Trag dich ein und erhalte die besten Schweizer Gewinnspiele direkt ins Postfach.</p>
     </div>
-    <form class="newsletter-form" method="POST" action="https://62090d43.sibforms.com/serve/MUIFABqHVL2YIp1m6sBL1WO1POM2y3zFBop89fpaogBM_5vpYcV4XUWW2-ux58tgSvmTsHFABiHdYAXm-S334ZKCj2o008TQDhaKKpxGI1ge_6T4EFQXwU5vJpw-UJrgeJ34X7RDuP7iB4cpUAAmVtVGQYCgmrucsreTFrBBZIHwr44UVaptRHL83fB3HyOEE6WTjZ1QcEp-MEVHyA==">
-      <input class="newsletter-input" type="email" name="EMAIL" placeholder="deine@email.ch" required>
-      <input type="hidden" name="locale" value="de">
-      <input type="hidden" name="email_address_check" value="">
-      <button class="newsletter-submit" type="submit">Anmelden</button>
-    </form>
+    <div id="banner-nl-wrap" data-nl-wrap="light" style="min-width:280px;">
+      <form class="newsletter-form" method="POST" action="https://62090d43.sibforms.com/serve/MUIFABqHVL2YIp1m6sBL1WO1POM2y3zFBop89fpaogBM_5vpYcV4XUWW2-ux58tgSvmTsHFABiHdYAXm-S334ZKCj2o008TQDhaKKpxGI1ge_6T4EFQXwU5vJpw-UJrgeJ34X7RDuP7iB4cpUAAmVtVGQYCgmrucsreTFrBBZIHwr44UVaptRHL83fB3HyOEE6WTjZ1QcEp-MEVHyA==">
+        <input class="newsletter-input" type="email" name="EMAIL" placeholder="deine@email.ch" required>
+        <input type="hidden" name="locale" value="de">
+        <input type="hidden" name="email_address_check" value="">
+        <button class="newsletter-submit" type="submit">Anmelden</button>
+      </form>
+    </div>
   </div>
 </div>
 
@@ -1095,12 +1109,14 @@
         <div class="modal-newsletter">
           <h3>Kein Gewinnspiel mehr verpassen 🎁</h3>
           <p>Erhalte die besten Schweizer Gewinnspiele direkt ins Postfach.</p>
-          <form class="modal-newsletter-form" method="POST" action="https://62090d43.sibforms.com/serve/MUIFABqHVL2YIp1m6sBL1WO1POM2y3zFBop89fpaogBM_5vpYcV4XUWW2-ux58tgSvmTsHFABiHdYAXm-S334ZKCj2o008TQDhaKKpxGI1ge_6T4EFQXwU5vJpw-UJrgeJ34X7RDuP7iB4cpUAAmVtVGQYCgmrucsreTFrBBZIHwr44UVaptRHL83fB3HyOEE6WTjZ1QcEp-MEVHyA==">
-            <input class="modal-newsletter-input" type="email" name="EMAIL" placeholder="deine@email.ch" required>
-            <input type="hidden" name="locale" value="de">
-            <input type="hidden" name="email_address_check" value="">
-            <button class="modal-newsletter-btn" type="submit">Anmelden</button>
-          </form>
+          <div id="modal-nl-wrap" data-nl-wrap="light">
+            <form class="modal-newsletter-form" method="POST" action="https://62090d43.sibforms.com/serve/MUIFABqHVL2YIp1m6sBL1WO1POM2y3zFBop89fpaogBM_5vpYcV4XUWW2-ux58tgSvmTsHFABiHdYAXm-S334ZKCj2o008TQDhaKKpxGI1ge_6T4EFQXwU5vJpw-UJrgeJ34X7RDuP7iB4cpUAAmVtVGQYCgmrucsreTFrBBZIHwr44UVaptRHL83fB3HyOEE6WTjZ1QcEp-MEVHyA==">
+              <input class="modal-newsletter-input" type="email" name="EMAIL" placeholder="deine@email.ch" required>
+              <input type="hidden" name="locale" value="de">
+              <input type="hidden" name="email_address_check" value="">
+              <button class="modal-newsletter-btn" type="submit">Anmelden</button>
+            </form>
+          </div>
         </div>
         <p class="modal-disclaimer">Nicht von @gewinnspieleschweiz veranstaltet. Teilnahme über den Original Post beim Veranstalter. Nicht verbunden mit Meta.</p>
       </div>`;
@@ -1127,6 +1143,18 @@
     setTimeout(() => toast.classList.remove('show'), 4000);
   }
 
+  // Confirmation card markup (Option B: form is replaced by a confirmation card)
+  function confirmCardHTML(theme) {
+    const darkClass = theme === 'dark' ? ' nl-confirm-dark' : '';
+    return `<div class="nl-confirm${darkClass}">
+      <div class="nl-confirm-icon">🎉</div>
+      <div>
+        <div class="nl-confirm-title">Du bist dabei!</div>
+        <div class="nl-confirm-text">Wir halten dich auf dem Laufenden.</div>
+      </div>
+    </div>`;
+  }
+
   // Intercept all newsletter forms – use event delegation to catch dynamic modal forms too
   document.addEventListener('submit', function(e) {
     const form = e.target;
@@ -1135,11 +1163,23 @@
     const emailInput = form.querySelector('input[type="email"]');
     if (!emailInput || !emailInput.value) return;
     const formData = new FormData(form);
-    // Show toast immediately
-    emailInput.value = '';
-    const overlay = document.getElementById('modal-overlay');
-    if (overlay && overlay.classList.contains('open')) closeModalDirect();
+
+    // Option B: swap the form for a confirmation card
+    const wrap = form.closest('[data-nl-wrap]');
+    if (wrap) {
+      const theme = wrap.getAttribute('data-nl-wrap');
+      wrap.innerHTML = confirmCardHTML(theme);
+    }
+
+    // Show toast too
     showToast();
+
+    // If this happened inside the modal, close it shortly after so the user sees the confirmation
+    const overlay = document.getElementById('modal-overlay');
+    if (overlay && overlay.classList.contains('open')) {
+      setTimeout(closeModalDirect, 1800);
+    }
+
     // Send in background
     fetch(form.action, { method: 'POST', body: formData, mode: 'no-cors' }).catch(() => {});
   });
@@ -1161,24 +1201,7 @@
 </script>
 
 <!-- TOAST -->
-<div id="toast" style="
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  background: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 16px;
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-  z-index: 9999;
-  max-width: 300px;
-  transform: translateY(100px);
-  opacity: 0;
-  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-">
+<div id="toast" class="toast-popup">
   <div style="width: 36px; height: 36px; background: #efffef; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;">🎉</div>
   <div>
     <div style="font-weight: 700; font-size: 14px; color: #111; margin-bottom: 2px;">Du bist dabei!</div>
@@ -1188,7 +1211,26 @@
 </div>
 
 <style>
-  #toast.show { transform: translateY(0); opacity: 1; }
+  .toast-popup {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 16px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    z-index: 9999;
+    max-width: 300px;
+    transform: translateY(100px);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .toast-popup.show { transform: translateY(0); opacity: 1; pointer-events: auto; }
 </style>
 
 </body>
