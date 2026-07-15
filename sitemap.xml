@@ -20,13 +20,25 @@
   </url>
   <url>
     <loc>https://gewinnspieleschweiz.ch/blog.html</loc>
-    <lastmod>2026-07-13</lastmod>
+    <lastmod>2026-07-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://gewinnspieleschweiz.ch/blog/ferien-gewinnspiele-sommer-2026.html</loc>
     <lastmod>2026-07-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gewinnspieleschweiz.ch/blog/gewinnspiel-gewonnen-was-jetzt.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gewinnspieleschweiz.ch/blog/online-gewinnspiele-schweiz-serioes.html</loc>
+    <lastmod>2026-07-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
