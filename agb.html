@@ -3,47 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Impressum – GewinnspielSchweiz</title>
+  <title>AGB / Nutzungsbedingungen – GewinnspielSchweiz</title>
+  <meta name="description" content="Allgemeine Geschäftsbedingungen und Nutzungsbedingungen von GewinnspielSchweiz." />
   <meta name="robots" content="noindex, follow" />
   <link rel="icon" href="/favicon.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --red: #D52B1E; --red-hover: #b82318; --border: #ebebeb; --text: #111; --text-muted: #666; }
+    :root { --red: #D52B1E; --red-hover: #b82318; --red-light: #fff0ef; --border: #ebebeb; --text: #111; --text-muted: #666; }
     html { scroll-behavior: smooth; }
     body { font-family: 'Inter', sans-serif; background: #f9f9f9; color: var(--text); }
 
-    nav { position: sticky; top: 0; z-index: 200; background: rgba(255,255,255,0.97); border-bottom: 1px solid var(--border); }
-    .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; height: 62px; display: flex; align-items: center; justify-content: space-between; }
-    .nav-links { display: flex; align-items: center; gap: 8px; list-style: none; }
-    .nav-links a { font-size: 14px; font-weight: 500; color: var(--text-muted); text-decoration: none; padding: 6px 12px; border-radius: 8px; transition: all 0.2s; }
-    .nav-links a:hover { background: #fff0ef; color: var(--red); }
-    .dropdown { position: relative; }
-    .dropdown-toggle { font-size: 14px; font-weight: 500; color: var(--text-muted); background: none; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s; }
-    .dropdown-toggle:hover { background: #fff0ef; color: var(--red); }
-    .dropdown-menu { display: none; position: absolute; top: calc(100% + 8px); right: 0; background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 8px; min-width: 160px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
-    .dropdown:hover .dropdown-menu { display: block; }
-    .dropdown-menu a { display: block; font-size: 13px; font-weight: 500; color: var(--text-muted); padding: 8px 12px; border-radius: 8px; text-decoration: none; }
-    .dropdown-menu a:hover { background: #fff0ef; color: var(--red); }
-    .nav-cta { background: var(--red); color: #fff !important; padding: 8px 16px !important; border-radius: 8px !important; font-weight: 600 !important; }
-    .nav-cta:hover { background: var(--red-hover) !important; color: #fff !important; }
-
-    .page { max-width: 680px; margin: 0 auto; padding: 60px 24px; }
-    .back { display: inline-flex; align-items: center; gap: 6px; color: var(--red); text-decoration: none; font-size: 14px; font-weight: 500; margin-bottom: 40px; }
-    .back:hover { text-decoration: underline; }
-    h1 { font-size: 36px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px; }
-    .sub { color: var(--text-muted); font-size: 14px; margin-bottom: 48px; }
-    h2 { font-size: 16px; font-weight: 700; margin: 36px 0 10px; }
-    p { font-size: 15px; line-height: 1.7; color: #444; margin-bottom: 12px; }
-    a { color: var(--red); }
-    hr { border: none; border-top: 1px solid var(--border); margin: 36px 0; }
-
-    footer { border-top: 1px solid var(--border); margin-top: 80px; padding: 32px 24px; text-align: center; font-size: 13px; color: var(--text-muted); }
-    footer a { color: var(--text-muted); text-decoration: none; margin: 0 10px; }
-    footer a:hover { color: var(--red); }
-    .disclaimer { font-size: 11px; color: #bbb; margin-top: 16px; line-height: 1.6; }
-  
-    /* ── NAVBAR ── */
     nav { position: sticky; top: 0; z-index: 200; background: rgba(255,255,255,0.97); border-bottom: 1px solid var(--border); }
     .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 20px; height: 62px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
     .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
@@ -62,8 +32,6 @@
     .dropdown-menu a:hover { background: var(--red-light); color: var(--red); }
     .nav-cta { background: var(--red) !important; color: #fff !important; padding: 8px 14px !important; border-radius: 8px !important; font-weight: 600 !important; }
     .nav-cta:hover { background: var(--red-hover) !important; color: #fff !important; }
-
-    /* Mobile hamburger */
     .nav-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 6px; color: var(--text); }
     .nav-hamburger svg { width: 22px; height: 22px; }
     .nav-mobile-menu { display: none; position: fixed; inset: 0; background: #fff; z-index: 500; padding: 20px; overflow-y: auto; }
@@ -77,13 +45,26 @@
     .nav-mobile-section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); padding: 8px 16px 4px; }
     .nav-mobile-cta { background: var(--red); color: #fff !important; text-align: center; margin-top: 12px; }
     .nav-mobile-cta:hover { background: var(--red-hover) !important; }
-
     @media (max-width: 768px) {
       .nav-links { display: none; }
       .nav-hamburger { display: block; }
       .nav-logo-text { display: none; }
     }
 
+    .page { max-width: 680px; margin: 0 auto; padding: 60px 24px; }
+    .back { display: inline-flex; align-items: center; gap: 6px; color: var(--red); text-decoration: none; font-size: 14px; font-weight: 500; margin-bottom: 40px; }
+    .back:hover { text-decoration: underline; }
+    h1 { font-size: 36px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .sub { color: var(--text-muted); font-size: 14px; margin-bottom: 48px; }
+    h2 { font-size: 16px; font-weight: 700; margin: 36px 0 10px; }
+    p { font-size: 15px; line-height: 1.7; color: #444; margin-bottom: 12px; }
+    a { color: var(--red); }
+    hr { border: none; border-top: 1px solid var(--border); margin: 36px 0; }
+
+    footer { border-top: 1px solid var(--border); margin-top: 80px; padding: 32px 24px; text-align: center; font-size: 13px; color: var(--text-muted); }
+    footer a { color: var(--text-muted); text-decoration: none; margin: 0 10px; }
+    footer a:hover { color: var(--red); }
+    .disclaimer { font-size: 11px; color: #bbb; margin-top: 16px; line-height: 1.6; }
   </style>
 </head>
 <body>
@@ -116,7 +97,6 @@
   </div>
 </nav>
 
-<!-- Mobile Menu -->
 <div class="nav-mobile-menu" id="mobileMenu">
   <div class="nav-mobile-header">
     <a class="nav-logo" href="/">
@@ -142,42 +122,48 @@
 
 <div class="page">
   <a class="back" href="/">← Zurück</a>
-  <h1>Impressum</h1>
-  <p class="sub">Angaben gemäss schweizerischem Recht</p>
+  <h1>AGB / Nutzungsbedingungen</h1>
+  <p class="sub">Allgemeine Geschäftsbedingungen für die Nutzung von gewinnspieleschweiz.ch</p>
 
-  <h2>Verantwortlich für diese Website</h2>
-  <p>Julian Frick<br>Kreuzbleichestrasse 6<br>9000 St. Gallen, Schweiz<br><a href="mailto:info@gewinnspieleschweiz.ch">info@gewinnspieleschweiz.ch</a></p>
-
-  <hr>
-
-  <h2>Instagram</h2>
-  <p><a href="https://instagram.com/gewinnspieleschweiz" target="_blank">@gewinnspieleschweiz</a></p>
+  <h2>1. Geltungsbereich</h2>
+  <p>Diese Nutzungsbedingungen gelten für die Nutzung der Website gewinnspieleschweiz.ch (nachfolgend "GewinnspielSchweiz") durch Besucherinnen und Besucher sowie für die Zusammenarbeit mit Unternehmen, die Gewinnspiele über GewinnspielSchweiz bewerben.</p>
 
   <hr>
 
-  <h2>Haftungsausschluss</h2>
-  <p>GewinnspielSchweiz sammelt und teilt öffentlich zugängliche Gewinnspiel-Informationen. Wir sind nicht Veranstalter der aufgeführten Gewinnspiele und übernehmen keine Haftung für deren Inhalte, Teilnahmebedingungen oder die Ausschüttung von Gewinnen. Die Teilnahme erfolgt ausschliesslich über den jeweiligen Original-Veranstalter.</p>
-  <p>Wir übernehmen keinerlei Gewähr hinsichtlich der inhaltlichen Richtigkeit, Genauigkeit, Aktualität, Zuverlässigkeit und Vollständigkeit der auf dieser Website veröffentlichten Informationen. Haftungsansprüche gegen uns wegen Schäden materieller oder immaterieller Art, welche aus dem Zugriff, der Nutzung oder Nichtnutzung der veröffentlichten Informationen, durch Missbrauch der Verbindung oder durch technische Störungen entstanden sind, werden ausgeschlossen. Wir behalten uns ausdrücklich vor, Teile der Website oder das gesamte Angebot ohne gesonderte Ankündigung zu verändern, zu ergänzen, zu löschen oder die Veröffentlichung zeitweise oder endgültig einzustellen.</p>
+  <h2>2. Angebot und Funktion der Website</h2>
+  <p>GewinnspielSchweiz sammelt und listet öffentlich zugängliche Informationen zu Gewinnspielen und Wettbewerben Dritter. GewinnspielSchweiz ist selbst nicht Veranstalter dieser Gewinnspiele. Die Teilnahme an einem gelisteten Gewinnspiel erfolgt ausschliesslich direkt beim jeweiligen Veranstalter, nach dessen eigenen Teilnahmebedingungen.</p>
 
   <hr>
 
-  <h2>Haftungsausschluss für Links</h2>
-  <p>Diese Website enthält Links zu externen Websites Dritter (insbesondere zu den Original-Veranstaltern der aufgeführten Gewinnspiele), auf deren Inhalte wir keinen Einfluss haben. Deshalb übernehmen wir für diese fremden Inhalte auch keine Gewähr. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seite verantwortlich. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.</p>
+  <h2>3. Keine Gewähr für gelistete Gewinnspiele</h2>
+  <p>Wir bemühen uns um Aktualität und Richtigkeit der gelisteten Gewinnspiele, können aber keine Gewähr für deren Durchführung, Ausschüttung von Gewinnen oder die Einhaltung der jeweiligen Teilnahmebedingungen durch den Veranstalter übernehmen. Für Streitigkeiten im Zusammenhang mit einem konkreten Gewinnspiel ist ausschliesslich der jeweilige Veranstalter Ansprechpartner.</p>
 
   <hr>
 
-  <h2>Werbekennzeichnung</h2>
-  <p>Diese Website kann bezahlte oder vergütete Inhalte enthalten, beispielsweise Sponsored-Placements von Unternehmen oder Affiliate-Links, über die wir bei einer Vermittlung eine Provision erhalten können. Solche Inhalte werden entsprechend gekennzeichnet (z.B. als "Werbung", "Anzeige" oder "Affiliate-Link"). Redaktionelle Inhalte und Werbeinhalte sind klar voneinander getrennt.</p>
+  <h2>4. Werbung, Sponsoring und Affiliate-Links</h2>
+  <p>GewinnspielSchweiz finanziert sich unter anderem durch bezahlte Platzierungen, Sponsoring-Kooperationen mit Unternehmen und Affiliate-Partnerschaften. Entsprechend gekennzeichnete Inhalte stehen in einem kommerziellen Verhältnis zum jeweiligen Unternehmen. Redaktionelle Auswahl und Werbeinhalte werden klar voneinander getrennt und entsprechend gekennzeichnet.</p>
 
   <hr>
 
-  <h2>Urheberrecht</h2>
-  <p>Die Inhalte dieser Website sind urheberrechtlich geschützt. Eine Verwendung ohne ausdrückliche Genehmigung ist nicht gestattet.</p>
+  <h2>5. Urheberrecht</h2>
+  <p>Alle Inhalte dieser Website (Texte, Grafiken, Layout) sind urheberrechtlich geschützt. Eine Vervielfältigung, Verbreitung oder Weiterverwendung ohne ausdrückliche Zustimmung ist nicht gestattet.</p>
 
   <hr>
 
-  <h2>Anwendbares Recht & Gerichtsstand</h2>
-  <p>Es gilt ausschliesslich Schweizer Recht. Gerichtsstand ist, soweit gesetzlich zulässig, St. Gallen. Weitere Bestimmungen finden sich in unseren <a href="/agb.html">Nutzungsbedingungen</a>.</p>
+  <h2>6. Haftungsbeschränkung</h2>
+  <p>Soweit gesetzlich zulässig, haften wir nicht für indirekte Schäden, Folgeschäden oder entgangenen Gewinn, die im Zusammenhang mit der Nutzung dieser Website oder der Teilnahme an einem darüber gefundenen Gewinnspiel entstehen. Weitere Angaben finden sich im <a href="/impressum.html">Impressum</a>.</p>
+
+  <hr>
+
+  <h2>7. Änderungen dieser Bedingungen</h2>
+  <p>Wir behalten uns vor, diese Nutzungsbedingungen jederzeit anzupassen. Die jeweils aktuelle Version ist auf dieser Seite einsehbar.</p>
+
+  <hr>
+
+  <h2>8. Anwendbares Recht & Gerichtsstand</h2>
+  <p>Es gilt ausschliesslich Schweizer Recht. Gerichtsstand ist, soweit gesetzlich zulässig, St. Gallen.</p>
+
+  <p style="color:#bbb; font-size:13px; margin-top:32px;">Stand: Juli 2026</p>
 </div>
 
 <footer>
