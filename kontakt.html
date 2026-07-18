@@ -110,41 +110,40 @@
     .select-btn.selected { background: var(--red); border-color: var(--red); color: #fff; }
     .select-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    .checkboxes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
+    .checkboxes { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
 
     .checkbox-label {
+      position: relative;
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: center;
+      gap: 8px;
       font-size: 14px;
-      font-weight: 400;
-      color: var(--text);
+      font-weight: 600;
+      color: var(--text-muted);
       cursor: pointer;
-      padding: 10px 14px;
+      padding: 12px 20px;
       border: 1.5px solid var(--border);
-      border-radius: 10px;
-      background: #f9f9f9;
+      border-radius: 100px;
+      background: #fff;
+      white-space: nowrap;
       transition: all 0.15s;
     }
 
-    .checkbox-label:hover { border-color: var(--red); background: var(--red-light); }
+    .checkbox-label:hover { border-color: var(--red); color: var(--red); background: var(--red-light); }
 
-    .checkbox-label input[type="checkbox"] {
-      width: 16px;
-      height: 16px;
-      min-width: 16px;
-      accent-color: var(--red);
-      border-radius: 4px;
-      cursor: pointer;
-      padding: 0;
-      background: none;
-      border: none;
-      box-shadow: none;
+    .checkbox-label input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+      pointer-events: none;
     }
 
     .checkbox-label:has(input:checked) {
       border-color: var(--red);
-      background: var(--red-light);
+      background: var(--red);
+      color: #fff;
     }
 
     /* FORM */
@@ -197,7 +196,6 @@
     @media (max-width: 600px) {
       .form-grid { grid-template-columns: 1fr; }
       .form-wrap { padding: 24px; }
-      .pricing-table th:last-child, .pricing-table td:last-child { display: none; }
     }
   
     /* ── NAVBAR ── */
@@ -301,71 +299,9 @@
 
   <div class="page-header">
     <div class="eyebrow">Für Unternehmen</div>
-    <h1>Gewinnspiel erstellen, Reichweite<br>boosten & Leads generieren</h1>
-    <p>Du willst dein Gewinnspiel bekannter machen, mehr Teilnahmen generieren und neue Leute erreichen? Wir bringen deinen Wettbewerb direkt vor eine engagierte Schweizer Zielgruppe – auf der Website und auf Instagram. Wähle das passende Format und sende uns eine Anfrage.</p>
+    <h1>Dein Gewinnspiel bei GewinnspielSchweiz</h1>
+    <p>Ob du dein Gewinnspiel bei uns platzieren, eine Kooperation starten oder sonst etwas besprechen willst – schreib uns kurz, worum es geht.</p>
   </div>
-
-  <!-- PRICING TABLE -->
-  <table class="pricing-table">
-    <thead>
-      <tr>
-        <th>Format</th>
-        <th>Beschreibung</th>
-        <th>Regulärer Preis</th>
-        <th>Aktuell</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class="unavailable">
-        <td><div class="option-name">Newsletter</div></td>
-        <td><div class="option-desc">Dein Gewinnspiel wird im Newsletter mit anderen Angeboten platziert</div></td>
-        <td><span class="price-old">CHF 80</span></td>
-        <td><span class="price-soon">Bald verfügbar</span></td>
-      </tr>
-      <tr class="unavailable">
-        <td><div class="option-name">Newsletter Solo</div></td>
-        <td><div class="option-desc">Der ganze Newsletter ist exklusiv deinem Gewinnspiel gewidmet</div></td>
-        <td><span class="price-old">CHF 300</span></td>
-        <td><span class="price-soon">Bald verfügbar</span></td>
-      </tr>
-      <tr>
-        <td><div class="option-name">Blog</div></td>
-        <td><div class="option-desc">Dein Gewinnspiel wird in einem Blogartikel vorgestellt</div></td>
-        <td><span class="price-old">CHF 100</span></td>
-        <td><span class="price-new">Gratis</span></td>
-      </tr>
-      <tr>
-        <td><div class="option-name">Website Post</div></td>
-        <td><div class="option-desc">Dein Gewinnspiel erscheint im Grid auf der Webseite</div></td>
-        <td><span class="price-old">CHF 120</span></td>
-        <td><span class="price-new">Gratis</span></td>
-      </tr>
-      <tr>
-        <td><div class="option-name">Instagram Post</div></td>
-        <td><div class="option-desc">Dein Gewinnspiel wird auf @gewinnspieleschweiz gepostet</div></td>
-        <td><span class="price-old">CHF 80</span></td>
-        <td><span class="price-new">Gratis</span></td>
-      </tr>
-      <tr>
-        <td><div class="option-name">Instagram Story</div></td>
-        <td><div class="option-desc">Dein Gewinnspiel wird als Story geteilt</div></td>
-        <td><span class="price-old">CHF 40</span></td>
-        <td><span class="price-new">Gratis</span></td>
-      </tr>
-      <tr>
-        <td><div class="option-name">Instagram Collaboration</div></td>
-        <td><div class="option-desc">Gemeinsamer Collaboration Post</div></td>
-        <td><span class="price-old">CHF 65</span></td>
-        <td><span class="price-new">Gratis</span></td>
-      </tr>
-      <tr class="unavailable">
-        <td><div class="option-name">Featured Listing</div></td>
-        <td><div class="option-desc">Hervorgehobene Platzierung mit eigenem Detailbereich</div></td>
-        <td><span class="price-old">CHF 300</span></td>
-        <td><span class="price-soon">Bald verfügbar</span></td>
-      </tr>
-    </tbody>
-  </table>
 
   <!-- FORM -->
   <div class="form-wrap">
@@ -386,45 +322,25 @@
             <input type="email" id="email" name="email" placeholder="deine@email.ch" required>
           </div>
           <div class="field full">
-            <label>Art der Anfrage</label>
+            <label>Worum geht's? *</label>
             <div class="checkboxes">
               <label class="checkbox-label">
-                <input type="checkbox" name="anfrage[]" value="Website Post">
-                <span>Website Post</span>
+                <input type="radio" name="anfrage" value="Gewinnspiel platzieren" required>
+                <span>Gewinnspiel platzieren</span>
               </label>
               <label class="checkbox-label">
-                <input type="checkbox" name="anfrage[]" value="Instagram Post">
-                <span>Instagram Post</span>
+                <input type="radio" name="anfrage" value="Kooperation">
+                <span>Kooperation</span>
               </label>
               <label class="checkbox-label">
-                <input type="checkbox" name="anfrage[]" value="Instagram Story">
-                <span>Instagram Story</span>
-              </label>
-              <label class="checkbox-label">
-                <input type="checkbox" name="anfrage[]" value="Instagram Collaboration">
-                <span>Instagram Collaboration</span>
-              </label>
-              <label class="checkbox-label">
-                <input type="checkbox" name="anfrage[]" value="Newsletter">
-                <span>Newsletter</span>
-              </label>
-              <label class="checkbox-label">
-                <input type="checkbox" name="anfrage[]" value="Newsletter Solo">
-                <span>Newsletter Solo</span>
-              </label>
-              <label class="checkbox-label">
-                <input type="checkbox" name="anfrage[]" value="Blog">
-                <span>Blog</span>
-              </label>
-              <label class="checkbox-label">
-                <input type="checkbox" name="anfrage[]" value="Anderes">
+                <input type="radio" name="anfrage" value="Anderes">
                 <span>Anderes</span>
               </label>
             </div>
           </div>
           <div class="field full">
             <label for="nachricht">Nachricht</label>
-            <textarea id="nachricht" name="nachricht" placeholder="Beschreibe kurz dein Gewinnspiel – Preis, Deadline, Teilnahmebedingungen..."></textarea>
+            <textarea id="nachricht" name="nachricht" placeholder="Beschreibe kurz dein Anliegen – z.B. Preis, Deadline und Teilnahmebedingungen deines Gewinnspiels..."></textarea>
           </div>
         </div>
         <input type="hidden" name="_subject" value="Neue Kooperationsanfrage – GewinnspielSchweiz">
