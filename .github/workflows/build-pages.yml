@@ -1,0 +1,43 @@
+name: Generate Gewinnspiel-Detailseiten
+
+# Läuft automatisch:
+# 1) jeden Tag um 05:00 UTC (07:00 Schweizer Sommerzeit)
+# 2) bei jedem manuellen Push auf main (z.B. wenn du sitemap.xml o.ä. änderst)
+# 3) jederzeit manuell über den "Run workflow"-Button im Actions-Tab
+on:
+  schedule:
+    - cron: "0 5 * * *"
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  build-pages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v4
+
+      - name: Python einrichten
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Detailseiten generieren
+        run: python3 generate_gewinnspiel_pages.py
+
+      - name: Änderungen committen (nur falls etwas neu ist)
+        run: |
+          git config user.name "GewinnspielSchweiz Bot"
+          git config user.email "info@gewinnspieleschweiz.ch"
+          git add gewinnspiele/ sitemap.xml
+          if git diff --cached --quiet; then
+            echo "Keine Änderungen – nichts zu committen."
+          else
+            git commit -m "Automatisch generierte Gewinnspiel-Detailseiten aktualisiert"
+            git push
+          fi
+
