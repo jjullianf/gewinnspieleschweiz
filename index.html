@@ -1077,6 +1077,19 @@
   function filterCards() { renderCards(allData); }
 
   // Modal
+  // Slugify — identisch zur Logik in generate_gewinnspiel_pages.py
+  function slugify(text) {
+    return (text || '')
+      .normalize('NFKD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .replace(/-{2,}/g, '-')
+      .substring(0, 80)
+      .replace(/-+$/, '');
+  }
+
   function openModal(index) {
     const r = allData[index];
     if (!r) return;
@@ -1114,6 +1127,7 @@
         ${r.Beschreibung ? `<div class="modal-desc">${r.Beschreibung}</div>` : ''}
         ${stepsHtml}
         ${r.Deadline ? `<div class="modal-deadline">⏰ Teilnahmeschluss: <strong class="${urgent ? 'urgent' : ''}">${r.Deadline}</strong></div>` : ''}
+        <a class="modal-cta" style="background:#fff; color:var(--red); border:1.5px solid var(--red); margin-bottom:10px;" href="/gewinnspiele/${slugify(r.Titel + '-' + r.Firma) || slugify(r.Titel)}.html">Alle Details ansehen →</a>
         <a class="modal-cta" href="${r.Link}" target="_blank" rel="noopener" onclick="trackExternalClick('${r.Titel.replace(/'/g,"\\'")}', '${r.Firma}', '${r.Link}')">Jetzt beim Original mitmachen →</a>
         <div class="modal-divider"><span>oder</span></div>
         <div class="modal-newsletter">
