@@ -96,6 +96,8 @@ def format_price_line(preis: str) -> str:
 PAGE_TEMPLATE = """<!DOCTYPE html>
 <html lang="de">
 <head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1892773925409513"
+     crossorigin="anonymous"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title_tag}</title>
