@@ -186,4 +186,16 @@
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
+  <url>
+    <loc>https://gewinnspieleschweiz.ch/gewinnspiele/reise-nach-sardinien-gewinnen-veridia-resort-edelweiss-air.html</loc>
+    <lastmod>2026-07-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://gewinnspieleschweiz.ch/gewinnspiele/traumreise-nach-phuket-gewinnen-thailand-edelweiss-air.html</loc>
+    <lastmod>2026-07-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
 </urlset>
