@@ -210,4 +210,16 @@
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
+  <url>
+    <loc>https://gewinnspieleschweiz.ch/gewinnspiele/weltklasse-zurich-tickets-gewinnen-vbz.html</loc>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://gewinnspieleschweiz.ch/gewinnspiele/weltklasse-zurich-stehplatz-tickets-gewinnen-pinsport.html</loc>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
 </urlset>
