@@ -258,4 +258,10 @@
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
+  <url>
+    <loc>https://gewinnspieleschweiz.ch/gewinnspiele/made-in-switzerland-set-von-micasa-gewinnen-micasa.html</loc>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
 </urlset>
