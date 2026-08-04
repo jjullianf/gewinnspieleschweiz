@@ -857,6 +857,7 @@
     <span class="filter-label">Sortieren:</span>
     <button class="sort-btn active" id="sort-asc" onclick="setSort('asc', this)">⏰ Bald ablaufend</button>
     <button class="sort-btn" id="sort-desc" onclick="setSort('desc', this)">📅 Längste Laufzeit</button>
+    <button class="sort-btn" id="sort-newest" onclick="setSort('newest', this)">✨ Neuste zuerst</button>
   </div>
 
   <div class="grid" id="grid">
@@ -1076,10 +1077,13 @@
       return matchFilter && matchSearch && (d === null || d >= 0);
     });
 
-    // Featured always first, then sort by deadline
+    // Featured always first, then sort by deadline or by newest-added
     filtered.sort((a, b) => {
       if (b.Featured === 'Ja' && a.Featured !== 'Ja') return 1;
       if (a.Featured === 'Ja' && b.Featured !== 'Ja') return -1;
+      if (activeSort === 'newest') {
+        return allData.indexOf(b) - allData.indexOf(a);
+      }
       const dA = daysLeft(a.Deadline) ?? 9999;
       const dB = daysLeft(b.Deadline) ?? 9999;
       return activeSort === 'asc' ? dA - dB : dB - dA;
