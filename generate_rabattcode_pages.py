@@ -118,6 +118,30 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
   }}
   </script>
 
+  <script type="application/ld+json">
+  {{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {{
+        "@type": "Question",
+        "name": "Gibt es aktuell einen Rabattcode fuer {firma_js}?",
+        "acceptedAnswer": {{ "@type": "Answer", "text": "{faq_answer_1}" }}
+      }},
+      {{
+        "@type": "Question",
+        "name": "Was muss ich beim {firma_js} Rabatt beachten?",
+        "acceptedAnswer": {{ "@type": "Answer", "text": "Jeder Rabattcode hat eigene Teilnahmebedingungen, zum Beispiel einen Mindestbestellwert oder ausgeschlossene Produktkategorien. Die genauen Bedingungen stehen jeweils direkt bei der Beschreibung des Angebots." }}
+      }},
+      {{
+        "@type": "Question",
+        "name": "Wie oft aktualisiert ihr die {firma_js} Rabattcodes?",
+        "acceptedAnswer": {{ "@type": "Answer", "text": "Wir pruefen unsere Rabattcodes regelmaessig auf Gueltigkeit und ergaenzen laufend neue Angebote. Das Datum der letzten Pruefung steht bei jedem Code auf dieser Seite." }}
+      }}
+    ]
+  }}
+  </script>
+
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RWWB1CDLR8"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -190,6 +214,9 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 
     .offer-card {{ background: #fff; border: 1.5px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 18px; }}
     .offer-card.is-expired {{ opacity: 0.6; }}
+    .offer-tag {{ display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 3px 9px; border-radius: 100px; margin-bottom: 10px; }}
+    .offer-tag-code {{ background: var(--red-light); color: var(--red); }}
+    .offer-tag-nocode {{ background: #eef6ff; color: #1a5fb4; }}
     .offer-title {{ font-size: 18px; font-weight: 800; margin-bottom: 8px; }}
     .offer-desc {{ font-size: 14px; color: #333; line-height: 1.7; margin-bottom: 14px; }}
     .offer-meta {{ font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }}
@@ -293,6 +320,12 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
     <p class="disclaimer-small">Alle Angaben ohne Gewaehr, Stand {generated_date}. Codes werden regelmaessig geprueft, eine Garantie koennen wir aber nicht uebernehmen. GewinnspielSchweiz ist nicht mit {firma} verbunden.</p>
 
     <hr class="divider">
+    <h2>Haeufige Fragen zum {firma} Rabattcode</h2>
+    <p><strong>Gibt es aktuell einen Rabattcode fuer {firma}?</strong><br>{faq_answer_1}</p>
+    <p><strong>Was muss ich beim {firma} Rabatt beachten?</strong><br>Jeder Rabattcode hat eigene Teilnahmebedingungen, zum Beispiel einen Mindestbestellwert oder ausgeschlossene Produktkategorien. Die genauen Bedingungen stehen jeweils direkt bei der Beschreibung des Angebots.</p>
+    <p><strong>Wie oft aktualisiert ihr die {firma} Rabattcodes?</strong><br>Wir pruefen unsere Rabattcodes regelmaessig auf Gueltigkeit und ergaenzen laufend neue Angebote. Das Datum der letzten Pruefung steht bei jedem Code auf dieser Seite.</p>
+
+    <hr class="divider">
     <h2>Weitere Rabattcodes</h2>
     <p>Auf <a href="/rabattcode.html">GewinnspielSchweiz</a> findest du laufend gepruefte Rabattcodes verschiedener Schweizer Firmen.</p>
     <a class="back-link" href="/rabattcode.html">&larr; Zurueck zur Uebersicht</a>
@@ -365,11 +398,18 @@ def build_company_page(firma, rows, today):
 
         if not offer_expired:
             any_active = True
-            cta = f'<button class="reveal-btn" onclick="revealCode(this, \'{js_escape(rabattcode)}\', \'{js_escape(link)}\')">Code anzeigen &rarr;</button>'
+            if rabattcode:
+                code_tag = '<span class="offer-tag offer-tag-code">Mit Code</span>'
+                cta = f'<button class="reveal-btn" onclick="revealCode(this, \'{js_escape(rabattcode)}\', \'{js_escape(link)}\')">Code anzeigen &rarr;</button>'
+            else:
+                code_tag = '<span class="offer-tag offer-tag-nocode">Ohne Code</span>'
+                cta = f'<a class="reveal-btn" href="{link}" target="_blank" rel="noopener sponsored" style="text-decoration:none;">Zum Angebot &rarr;</a>'
         else:
+            code_tag = ''
             cta = '<div class="expired-note">Dieses Angebot ist abgelaufen</div>'
 
         offer_cards.append(f"""<div class="offer-card{' is-expired' if offer_expired else ''}">
+      {code_tag}
       <div class="offer-title">{rabatthoehe}</div>
       <p class="offer-desc">{beschreibung}</p>
       <p class="offer-meta">Gueltigkeit: <strong>{gueltig_display}</strong> - Zuletzt geprueft: <strong>{zuletzt_geprueft}</strong></p>
@@ -402,6 +442,16 @@ def build_company_page(firma, rows, today):
     checked_dates = [d for d in checked_dates if d]
     last_checked_iso = max(checked_dates).isoformat() if checked_dates else today.isoformat()
 
+    active_offer_count = sum(1 for c in offer_cards if 'expired-note' not in c)
+    if all_expired:
+        faq_answer_1 = f"Aktuell ist keines unserer geprueften Angebote fuer {firma} mehr gueltig. Wir aktualisieren diese Seite laufend, sobald ein neuer Code verfuegbar ist."
+    elif active_offer_count == 1:
+        faq_answer_1 = f"Ja, aktuell haben wir ein geprueftes Angebot fuer {firma}, siehe oben auf dieser Seite."
+    else:
+        faq_answer_1 = f"Ja, aktuell haben wir {active_offer_count} gepruefte Angebote fuer {firma}, siehe oben auf dieser Seite."
+
+    firma_js = firma.replace('"', "'")
+
     html = PAGE_TEMPLATE.format(
         title_tag=title_tag,
         meta_description=meta_description,
@@ -422,6 +472,8 @@ def build_company_page(firma, rows, today):
         offer_plural=offer_plural,
         offer_cards="\n".join(offer_cards),
         generated_date=today.strftime("%d.%m.%Y"),
+        faq_answer_1=faq_answer_1,
+        firma_js=firma_js,
     )
     return slug, html, all_expired
 
