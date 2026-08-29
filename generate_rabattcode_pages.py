@@ -2,20 +2,19 @@
 """
 generate_rabattcode_pages.py
 
-Liest das öffentliche Google-Sheet-CSV der Rabattcode-Sektion von
-GewinnspielSchweiz und erzeugt für jeden Eintrag eine eigenständige,
-indexierbare Detailseite unter /rabattcode/.
+Liest das oeffentliche Google-Sheet-CSV der Rabattcode-Sektion von
+GewinnspielSchweiz und erzeugt fuer jede FIRMA eine eigene, indexierbare
+Detailseite unter /rabattcode/ - auch wenn eine Firma mehrere Codes/Angebote
+im Sheet hat, landen die alle gemeinsam auf einer Seite.
 
-Gleiches Prinzip wie generate_gewinnspiel_pages.py, aber für Firmen-Rabattcodes
-statt Gewinnspiele. Wichtigster Unterschied: Codes haben oft kein festes
-Ablaufdatum ("laufend"), dafür ist ein "Zuletzt geprüft am"-Datum zentral für
-Aktualitäts-/Trust-Signale bei Google.
+WICHTIG (Tracking-Schutz): Codes werden NIE direkt im HTML als Klartext
+ausgegeben. Jeder Code wird erst per JavaScript sichtbar, nachdem die Person
+auf "Code anzeigen" geklickt hat - der Klick oeffnet gleichzeitig den
+Affiliate-Link in einem neuen Tab. So loest praktisch jede Code-Nutzung auch
+den Tracking-Klick aus.
 
 Verwendung (lokal):
     python3 generate_rabattcode_pages.py
-
-Verwendung (GitHub Actions):
-    Analog zu build-pages.yml, eigener oder erweiterter Workflow.
 """
 
 import csv
@@ -23,23 +22,19 @@ import io
 import re
 import unicodedata
 import urllib.request
+from collections import defaultdict
 from datetime import datetime, date
 from pathlib import Path
 
-# ── Konfiguration ─────────────────────────────────────────────────────────
-# WICHTIG: Trage hier die Publish-URL deines NEUEN Rabattcode-Sheets ein
-# (separates Sheet oder zweiter Tab im bestehenden Spreadsheet, als eigenes
-# CSV veröffentlicht über Datei → Freigeben → Im Web veröffentlichen).
+# Konfiguration
 CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR6N_-IWV5yI4NoSVvHrKsTPqyr6cJ4nMRQj3d-zwIx2A0mI_EDbRXpHVBHjYDc8_N8n1ljz3Ychmy5/pub?gid=0&single=true&output=csv"
 SITE_URL = "https://gewinnspieleschweiz.ch"
 OUTPUT_DIR = Path("rabattcode")
 SITEMAP_PATH = Path("sitemap.xml")
-LOCAL_CSV_FALLBACK = Path("Rabattcodes_-_Sheet1.csv")  # für lokale Tests ohne Internet
+LOCAL_CSV_FALLBACK = Path("Rabattcodes_-_Sheet1.csv")
 
 
 def slugify(text: str) -> str:
-    """Wandelt einen Titel in einen sauberen URL-Slug um. Identisch zum
-    Gewinnspiel-Skript, damit beide Systeme konsistente URLs erzeugen."""
     text = unicodedata.normalize("NFKD", text)
     text = text.encode("ascii", "ignore").decode("ascii")
     text = text.lower()
@@ -49,8 +44,7 @@ def slugify(text: str) -> str:
     return text[:80].rstrip("-")
 
 
-def parse_date(value: str) -> date | None:
-    """Parst TT.MM.JJJJ zu einem date-Objekt. Gibt None für leer/"laufend"/ungültig zurück."""
+def parse_date(value: str):
     value = (value or "").strip()
     if not value or value.lower() in ("laufend", "unbegrenzt", "-"):
         return None
@@ -60,8 +54,7 @@ def parse_date(value: str) -> date | None:
         return None
 
 
-def fetch_rows() -> list[dict]:
-    """Holt die aktuellen Zeilen aus dem Rabattcode-Sheet (mit lokalem Fallback)."""
+def fetch_rows():
     try:
         with urllib.request.urlopen(CSV_URL, timeout=20) as resp:
             raw = resp.read().decode("utf-8")
@@ -75,12 +68,24 @@ def fetch_rows() -> list[dict]:
     return [row for row in reader if row.get("Firma", "").strip()]
 
 
+def group_by_firma(rows):
+    groups = defaultdict(list)
+    for row in rows:
+        firma = row["Firma"].strip()
+        groups[firma].append(row)
+    return groups
+
+
 def truncate_at_word(text: str, max_len: int) -> str:
     text = text.strip()
     if len(text) <= max_len:
         return text
     truncated = text[:max_len].rsplit(" ", 1)[0].rstrip(",.;: ")
-    return truncated + "…"
+    return truncated + "..."
+
+
+def js_escape(text: str) -> str:
+    return text.replace("\\", "\\\\").replace("'", "\\'")
 
 
 PAGE_TEMPLATE = """<!DOCTYPE html>
@@ -136,17 +141,16 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
     .nav-logo-text {{ font-size: 15px; font-weight: 800; color: var(--text); }}
     .nav-logo-text span {{ color: var(--red); }}
     .nav-links {{ display: flex; align-items: center; gap: 4px; list-style: none; }}
-    .nav-links a {{ font-size: 14px; font-weight: 500; color: var(--text-muted); text-decoration: none; padding: 6px 10px; border-radius: 8px; transition: all 0.2s; white-space: nowrap; }}
+    .nav-links a {{ font-size: 14px; font-weight: 500; color: var(--text-muted); text-decoration: none; padding: 6px 10px; border-radius: 8px; }}
     .nav-links a:hover {{ background: var(--red-light); color: var(--red); }}
     .dropdown {{ position: relative; }}
-    .dropdown-toggle {{ font-size: 14px; font-weight: 500; color: var(--text-muted); background: none; border: none; padding: 6px 10px; border-radius: 8px; cursor: pointer; font-family: "Inter", sans-serif; transition: all 0.2s; white-space: nowrap; }}
+    .dropdown-toggle {{ font-size: 14px; font-weight: 500; color: var(--text-muted); background: none; border: none; padding: 6px 10px; border-radius: 8px; cursor: pointer; font-family: "Inter", sans-serif; }}
     .dropdown-toggle:hover {{ background: var(--red-light); color: var(--red); }}
     .dropdown-menu {{ display: none; position: absolute; top: calc(100% + 8px); right: 0; background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 8px; min-width: 180px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); z-index: 300; }}
     .dropdown:hover .dropdown-menu {{ display: block; }}
     .dropdown-menu a {{ display: block; font-size: 13px; font-weight: 500; color: var(--text-muted); padding: 8px 12px; border-radius: 8px; text-decoration: none; }}
     .dropdown-menu a:hover {{ background: var(--red-light); color: var(--red); }}
     .nav-cta {{ background: var(--red) !important; color: #fff !important; padding: 8px 14px !important; border-radius: 8px !important; font-weight: 600 !important; }}
-    .nav-cta:hover {{ background: var(--red-hover) !important; color: #fff !important; }}
     .nav-hamburger {{ display: none; background: none; border: none; cursor: pointer; padding: 6px; color: var(--text); }}
     .nav-hamburger svg {{ width: 22px; height: 22px; }}
     .nav-mobile-menu {{ display: none; position: fixed; inset: 0; background: #fff; z-index: 500; padding: 20px; overflow-y: auto; }}
@@ -154,12 +158,11 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
     .nav-mobile-header {{ display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }}
     .nav-mobile-close {{ background: none; border: none; cursor: pointer; font-size: 24px; color: var(--text-muted); }}
     .nav-mobile-links {{ display: flex; flex-direction: column; gap: 4px; }}
-    .nav-mobile-links a {{ font-size: 17px; font-weight: 600; color: var(--text); text-decoration: none; padding: 14px 16px; border-radius: 12px; display: block; transition: all 0.15s; }}
+    .nav-mobile-links a {{ font-size: 17px; font-weight: 600; color: var(--text); text-decoration: none; padding: 14px 16px; border-radius: 12px; display: block; }}
     .nav-mobile-links a:hover {{ background: var(--red-light); color: var(--red); }}
     .nav-mobile-divider {{ height: 1px; background: var(--border); margin: 8px 0; }}
     .nav-mobile-section-label {{ font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); padding: 8px 16px 4px; }}
     .nav-mobile-cta {{ background: var(--red) !important; color: #fff !important; text-align: center; margin-top: 12px; }}
-    .nav-mobile-cta:hover {{ background: var(--red-hover) !important; }}
     @media (max-width: 768px) {{
       .nav-links {{ display: none; }}
       .nav-hamburger {{ display: block; }}
@@ -183,52 +186,36 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
     .badge-expired {{ color: #999; background: #f0f0f0; }}
 
     h1 {{ font-size: clamp(24px, 4vw, 34px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 8px; }}
-    .company {{ font-size: 15px; color: var(--text-muted); margin-bottom: 28px; }}
-    .company strong {{ color: var(--text); }}
+    .company-sub {{ font-size: 15px; color: var(--text-muted); margin-bottom: 32px; }}
 
-    .code-box {{ background: #fff; border: 2px dashed var(--red); border-radius: 16px; padding: 24px; text-align: center; margin-bottom: 24px; }}
-    .code-box .code-label {{ font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 10px; }}
-    .code-box .code-value {{ font-size: 28px; font-weight: 800; letter-spacing: 0.05em; color: var(--red); font-family: 'Courier New', monospace; margin-bottom: 14px; }}
-    .code-box .copy-btn {{ background: var(--red); color: #fff; border: none; padding: 11px 22px; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: 'Inter', sans-serif; }}
-    .code-box .copy-btn:hover {{ background: var(--red-hover); }}
-    .code-box .copy-note {{ font-size: 12px; color: var(--text-muted); margin-top: 8px; }}
+    .offer-card {{ background: #fff; border: 1.5px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 18px; }}
+    .offer-card.is-expired {{ opacity: 0.6; }}
+    .offer-title {{ font-size: 18px; font-weight: 800; margin-bottom: 8px; }}
+    .offer-desc {{ font-size: 14px; color: #333; line-height: 1.7; margin-bottom: 14px; }}
+    .offer-meta {{ font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }}
+    .offer-meta strong {{ color: var(--text); }}
 
-    .info-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 32px; }}
-    .info-card {{ background: #fff; border: 1.5px solid var(--border); border-radius: 14px; padding: 18px 20px; }}
-    .info-card .label {{ font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 6px; }}
-    .info-card .value {{ font-size: 15px; font-weight: 700; color: var(--text); }}
+    .reveal-btn {{ display: inline-flex; align-items: center; gap: 8px; background: var(--red); color: #fff; border: none; padding: 13px 24px; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: 'Inter', sans-serif; width: 100%; justify-content: center; }}
+    .reveal-btn:hover {{ background: var(--red-hover); }}
+    .revealed-code {{ display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #f4fff6; border: 2px dashed #1a8a3d; border-radius: 10px; padding: 13px 18px; }}
+    .revealed-code .code-text {{ font-family: 'Courier New', monospace; font-weight: 800; font-size: 17px; letter-spacing: 0.04em; color: #0a6b28; }}
+    .revealed-code .copied-tag {{ font-size: 12px; font-weight: 700; color: #0a6b28; }}
+    .expired-note {{ text-align: center; font-size: 13px; color: #999; font-weight: 600; padding: 13px; background: #f4f4f4; border-radius: 10px; }}
 
-    h2 {{ font-size: 19px; font-weight: 800; margin: 32px 0 12px; }}
+    h2 {{ font-size: 19px; font-weight: 800; margin: 36px 0 12px; }}
     p {{ font-size: 15px; line-height: 1.8; color: #333; margin-bottom: 16px; }}
-    ol, ul {{ margin: 0 0 16px 20px; }}
-    li {{ font-size: 15px; line-height: 1.8; color: #333; margin-bottom: 6px; }}
-
-    .cta-box {{ background: var(--red); border-radius: 16px; padding: 28px; text-align: center; margin: 32px 0; }}
-    .cta-box .cta-title {{ color: #fff; font-weight: 800; font-size: 18px; margin-bottom: 6px; }}
-    .cta-box .cta-sub {{ color: rgba(255,255,255,0.85); font-size: 13px; margin-bottom: 18px; }}
-    .cta-btn {{ display: inline-block; background: #fff; color: var(--red); font-weight: 700; font-size: 15px; padding: 13px 28px; border-radius: 10px; text-decoration: none; }}
-
-    .expired-box {{ background: #f4f4f4; border: 1.5px dashed #ccc; border-radius: 16px; padding: 28px; text-align: center; margin: 32px 0; }}
-    .expired-box .exp-title {{ font-weight: 800; font-size: 17px; color: #666; margin-bottom: 6px; }}
-    .expired-box .exp-sub {{ color: #999; font-size: 13px; margin-bottom: 18px; }}
-    .expired-btn {{ display: inline-block; background: var(--red); color: #fff; font-weight: 700; font-size: 15px; padding: 13px 28px; border-radius: 10px; text-decoration: none; }}
 
     .divider {{ border: none; border-top: 1px solid var(--border); margin: 36px 0; }}
     .back-link {{ display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; margin-top: 8px; }}
     .back-link:hover {{ color: var(--red); }}
     .disclaimer-small {{ font-size: 12px; color: #bbb; margin-top: 24px; }}
-    .verified-line {{ font-size: 12px; color: #888; margin-top: -8px; margin-bottom: 24px; }}
 
     footer {{ border-top: 1px solid var(--border); margin-top: 60px; padding: 32px 24px; text-align: center; font-size: 13px; color: var(--text-muted); }}
     footer a {{ color: var(--text-muted); text-decoration: none; margin: 0 10px; }}
     footer a:hover {{ color: var(--red); }}
     .footer-disclaimer {{ font-size: 11px; color: #bbb; margin-top: 16px; line-height: 1.6; }}
 
-    @media (max-width: 500px) {{
-      .info-grid {{ grid-template-columns: 1fr; }}
-      .hero-img-wrap img {{ height: 220px; }}
-      .code-box .code-value {{ font-size: 22px; }}
-    }}
+    @media (max-width: 500px) {{ .hero-img-wrap img {{ height: 220px; }} }}
   </style>
 </head>
 <body>
@@ -244,9 +231,9 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
       <li><a href="/#gewinnspiele">Gewinnspiele</a></li>
       <li><a href="/rabattcode.html">Rabattcodes</a></li>
       <li><a href="/blog.html">Blog</a></li>
-      <li><a href="/kontakt.html">Für Unternehmen</a></li>
+      <li><a href="/kontakt.html">Fuer Unternehmen</a></li>
       <li class="dropdown">
-        <button class="dropdown-toggle">Mehr ▾</button>
+        <button class="dropdown-toggle">Mehr &#9662;</button>
         <div class="dropdown-menu">
           <a href="/impressum.html">Impressum</a>
           <a href="/agb.html">AGB</a>
@@ -256,7 +243,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
       </li>
       <li><a class="nav-cta" href="/newsletter.html">Newsletter</a></li>
     </ul>
-    <button class="nav-hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')" aria-label="Menu öffnen">
+    <button class="nav-hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')" aria-label="Menu oeffnen">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
   </div>
@@ -267,7 +254,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
     <a class="nav-logo" href="/">
       <img src="/logo.png" alt="GewinnspielSchweiz Logo" style="height:36px;width:36px;border-radius:8px;">
     </a>
-    <button class="nav-mobile-close" onclick="document.getElementById('mobileMenu').classList.remove('open')">✕</button>
+    <button class="nav-mobile-close" onclick="document.getElementById('mobileMenu').classList.remove('open')">X</button>
   </div>
   <div class="nav-mobile-links">
     <a href="/">Home</a>
@@ -276,7 +263,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
     <div class="nav-mobile-divider"></div>
     <div class="nav-mobile-section-label">Mehr</div>
     <a href="/blog.html">Blog</a>
-    <a href="/kontakt.html">Für Unternehmen</a>
+    <a href="/kontakt.html">Fuer Unternehmen</a>
     <a href="/impressum.html">Impressum</a>
     <a href="/agb.html">AGB</a>
     <a href="/datenschutz.html">Datenschutz</a>
@@ -299,40 +286,16 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
     </div>
 
     <h1>{title}</h1>
-    <p class="company">Anbieter: <strong>{firma}</strong></p>
+    <p class="company-sub">{offer_count} Angebot{offer_plural} von <strong>{firma}</strong> auf GewinnspielSchweiz</p>
 
-    <div class="code-box">
-      <div class="code-label">Rabattcode</div>
-      <div class="code-value" id="couponCode">{rabattcode}</div>
-      <button class="copy-btn" onclick="navigator.clipboard.writeText('{rabattcode_js}'); this.textContent='Kopiert ✓'; setTimeout(() => this.textContent='Code kopieren', 2000);">Code kopieren</button>
-      <div class="copy-note">Einfach kopieren und beim Checkout einfügen</div>
-    </div>
+    {offer_cards}
 
-    <div class="info-grid">
-      <div class="info-card">
-        <div class="label">Rabatt</div>
-        <div class="value">{rabatthoehe}</div>
-      </div>
-      <div class="info-card">
-        <div class="label">Gültigkeit</div>
-        <div class="value">{gueltig_display}</div>
-      </div>
-    </div>
-    <p class="verified-line">✓ Zuletzt geprüft am {zuletzt_geprueft}</p>
-
-    <h2>Worum geht's?</h2>
-    <p>{beschreibung}</p>
-
-    {cta_block}
-
-    <p class="disclaimer-small">Alle Angaben ohne Gewähr, Stand {generated_date}. Der Code wird regelmässig auf Gültigkeit geprüft, eine Garantie können wir aber nicht übernehmen. GewinnspielSchweiz ist nicht mit {firma} verbunden.</p>
+    <p class="disclaimer-small">Alle Angaben ohne Gewaehr, Stand {generated_date}. Codes werden regelmaessig geprueft, eine Garantie koennen wir aber nicht uebernehmen. GewinnspielSchweiz ist nicht mit {firma} verbunden.</p>
 
     <hr class="divider">
-
     <h2>Weitere Rabattcodes</h2>
-    <p>Auf <a href="/rabattcode.html">GewinnspielSchweiz</a> findest du laufend geprüfte Rabattcodes verschiedener Schweizer Firmen.</p>
-
-    <a class="back-link" href="/rabattcode.html">← Zurück zur Übersicht</a>
+    <p>Auf <a href="/rabattcode.html">GewinnspielSchweiz</a> findest du laufend gepruefte Rabattcodes verschiedener Schweizer Firmen.</p>
+    <a class="back-link" href="/rabattcode.html">&larr; Zurueck zur Uebersicht</a>
 
   </div>
 </div>
@@ -344,23 +307,25 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
     <a href="/rabattcode.html">Rabattcodes</a>
     <a href="/blog.html">Blog</a>
     <a href="/newsletter.html">Newsletter</a>
-    <a href="/kontakt.html">Für Unternehmen</a>
+    <a href="/kontakt.html">Fuer Unternehmen</a>
     <a href="/impressum.html">Impressum</a>
     <a href="/agb.html">AGB</a>
     <a href="/datenschutz.html">Datenschutz</a>
   </p>
-  <p class="footer-disclaimer">GewinnspielSchweiz ist nicht mit den gelisteten Firmen verbunden. Codes ohne Gewähr.</p>
+  <p class="footer-disclaimer">GewinnspielSchweiz ist nicht mit den gelisteten Firmen verbunden. Codes ohne Gewaehr.</p>
 </footer>
 
 <script>
-  document.addEventListener('click', function(e) {{
-    var link = e.target.closest('a[target="_blank"]');
-    if (link && link.href) {{
-      e.preventDefault();
-      window.open(link.href, '_blank', 'noopener');
-      window.focus();
+  function revealCode(btn, code, link) {{
+    window.open(link, '_blank', 'noopener');
+    if (navigator.clipboard) {{
+      navigator.clipboard.writeText(code).catch(function() {{}});
     }}
-  }});
+    var wrap = document.createElement('div');
+    wrap.className = 'revealed-code';
+    wrap.innerHTML = '<span class="code-text">' + code + '</span><span class="copied-tag">check kopiert</span>';
+    btn.replaceWith(wrap);
+  }}
 </script>
 
 </body>
@@ -368,59 +333,74 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 """
 
 
-def build_page(row: dict, today: date) -> tuple[str, str, bool]:
-    """Baut den HTML-Inhalt einer Rabattcode-Detailseite. Gibt (slug, html, is_expired) zurück."""
-    firma = row.get("Firma", "").strip()
-    rabattcode = row.get("Rabattcode", "").strip()
-    rabatthoehe = row.get("Rabatthoehe", "").strip()
-    kategorie = row.get("Kategorie", "").strip()
-    gueltig_bis_raw = row.get("Gueltig_bis", "").strip()
-    link = row.get("Link", "").strip()
-    bild = row.get("Bild", "").strip()
-    beschreibung = row.get("Beschreibung", "").strip()
-    zuletzt_geprueft_raw = row.get("Zuletzt_geprueft", "").strip()
-
-    titel = f"{firma} Rabattcode: {rabatthoehe}" if rabatthoehe else f"{firma} Rabattcode"
-
-    gueltig_date = parse_date(gueltig_bis_raw)
-    is_expired = bool(gueltig_date and gueltig_date < today)
-    gueltig_display = gueltig_bis_raw if gueltig_bis_raw else "Laufend"
-
-    last_checked_date = parse_date(zuletzt_geprueft_raw)
-    last_checked_iso = last_checked_date.isoformat() if last_checked_date else today.isoformat()
-    zuletzt_geprueft = zuletzt_geprueft_raw or today.strftime("%d.%m.%Y")
-
+def build_company_page(firma, rows, today):
     slug = slugify(f"{firma}-rabattcode")
     canonical_url = f"{SITE_URL}/rabattcode/{slug}.html"
 
-    category_display = kategorie.split("/")[0] if kategorie else "Shopping"
+    offer_cards = []
+    any_active = False
+    best_bild = ""
+    best_kategorie = ""
+    best_rabatthoehe = rows[0].get("Rabatthoehe", "").strip()
 
-    if is_expired:
-        title_tag = f"{firma} Rabattcode – abgelaufen | GewinnspielSchweiz"
+    for row in rows:
+        rabattcode = row.get("Rabattcode", "").strip()
+        rabatthoehe = row.get("Rabatthoehe", "").strip()
+        kategorie = row.get("Kategorie", "").strip()
+        gueltig_bis_raw = row.get("Gueltig_bis", "").strip()
+        link = row.get("Link", "").strip()
+        bild = row.get("Bild", "").strip()
+        beschreibung = row.get("Beschreibung", "").strip()
+        zuletzt_geprueft_raw = row.get("Zuletzt_geprueft", "").strip()
+
+        if bild and not best_bild:
+            best_bild = bild
+        if kategorie and not best_kategorie:
+            best_kategorie = kategorie
+
+        gueltig_date = parse_date(gueltig_bis_raw)
+        offer_expired = bool(gueltig_date and gueltig_date < today)
+        gueltig_display = gueltig_bis_raw if gueltig_bis_raw else "Laufend"
+        zuletzt_geprueft = zuletzt_geprueft_raw or today.strftime("%d.%m.%Y")
+
+        if not offer_expired:
+            any_active = True
+            cta = f'<button class="reveal-btn" onclick="revealCode(this, \'{js_escape(rabattcode)}\', \'{js_escape(link)}\')">Code anzeigen &rarr;</button>'
+        else:
+            cta = '<div class="expired-note">Dieses Angebot ist abgelaufen</div>'
+
+        offer_cards.append(f"""<div class="offer-card{' is-expired' if offer_expired else ''}">
+      <div class="offer-title">{rabatthoehe}</div>
+      <p class="offer-desc">{beschreibung}</p>
+      <p class="offer-meta">Gueltigkeit: <strong>{gueltig_display}</strong> - Zuletzt geprueft: <strong>{zuletzt_geprueft}</strong></p>
+      {cta}
+    </div>""")
+
+    all_expired = not any_active
+    category_display = (best_kategorie.split("/")[0] if best_kategorie else "Shopping")
+    offer_count = len(rows)
+    offer_plural = "e" if offer_count != 1 else ""
+
+    if all_expired:
+        title_tag = f"{firma} Rabattcode - abgelaufen | GewinnspielSchweiz"
         status_badge = '<span class="badge badge-expired">Abgelaufen</span>'
         robots_content = "noindex, follow"
-        cta_block = f"""<div class="expired-box">
-      <div class="exp-title">Dieser Code ist abgelaufen</div>
-      <div class="exp-sub">Die Gültigkeit ({gueltig_bis_raw}) ist bereits verstrichen.</div>
-      <a class="expired-btn" href="/rabattcode.html">Alle aktuellen Rabattcodes ansehen →</a>
-    </div>"""
     else:
-        title_tag = f"{firma} Rabattcode {today.year}: {rabatthoehe} | GewinnspielSchweiz"
+        title_tag = f"{firma} Rabattcode {today.year}: {best_rabatthoehe} | GewinnspielSchweiz"
         status_badge = '<span class="badge badge-active">Aktiv</span>'
         robots_content = "index, follow"
-        cta_block = f"""<div class="cta-box">
-      <div class="cta-title">Jetzt einlösen</div>
-      <div class="cta-sub">Gültigkeit: {gueltig_display}</div>
-      <a class="cta-btn" href="{link}" target="_blank" rel="noopener sponsored">Zu {firma} →</a>
-    </div>"""
 
-    meta_description = f"{firma} Rabattcode: {rabatthoehe}. Code: {rabattcode}. Gültigkeit: {gueltig_display}, zuletzt geprüft {zuletzt_geprueft}."
-    if beschreibung:
-        meta_description += f" {beschreibung}"
+    titel = f"{firma} Rabattcode: {best_rabatthoehe}" if best_rabatthoehe else f"{firma} Rabattcode"
+
+    meta_description = f"{firma} Rabattcode: {offer_count} aktuelle{'s' if offer_count == 1 else ''} Angebot{offer_plural}. Codes einfach anzeigen und beim Einkauf sparen."
     meta_description = truncate_at_word(meta_description, 155)
 
-    og_image_tag = f'<meta property="og:image" content="{bild}" />' if bild else ""
-    hero_block = f'<div class="hero-img-wrap"><img src="{bild}" alt="{firma} Rabattcode"></div>' if bild else ""
+    og_image_tag = f'<meta property="og:image" content="{best_bild}" />' if best_bild else ""
+    hero_block = f'<div class="hero-img-wrap"><img src="{best_bild}" alt="{firma} Rabattcode"></div>' if best_bild else ""
+
+    checked_dates = [parse_date(r.get("Zuletzt_geprueft", "")) for r in rows]
+    checked_dates = [d for d in checked_dates if d]
+    last_checked_iso = max(checked_dates).isoformat() if checked_dates else today.isoformat()
 
     html = PAGE_TEMPLATE.format(
         title_tag=title_tag,
@@ -438,22 +418,17 @@ def build_page(row: dict, today: date) -> tuple[str, str, bool]:
         firma=firma,
         category_display=category_display,
         status_badge=status_badge,
-        rabattcode=rabattcode,
-        rabattcode_js=rabattcode.replace("'", "\\'"),
-        rabatthoehe=rabatthoehe,
-        gueltig_display=gueltig_display,
-        zuletzt_geprueft=zuletzt_geprueft,
-        beschreibung=beschreibung,
-        cta_block=cta_block,
+        offer_count=offer_count,
+        offer_plural=offer_plural,
+        offer_cards="\n".join(offer_cards),
         generated_date=today.strftime("%d.%m.%Y"),
     )
-    return slug, html, is_expired
+    return slug, html, all_expired
 
 
-def update_sitemap(active_slugs: list[str]):
-    """Fügt aktive Rabattcode-Detailseiten zur sitemap.xml hinzu (falls nicht schon vorhanden)."""
+def update_sitemap(active_slugs):
     if not SITEMAP_PATH.exists():
-        print("[warn] sitemap.xml nicht gefunden, überspringe Sitemap-Update.")
+        print("[warn] sitemap.xml nicht gefunden, ueberspringe Sitemap-Update.")
         return
 
     content = SITEMAP_PATH.read_text(encoding="utf-8")
@@ -475,31 +450,32 @@ def update_sitemap(active_slugs: list[str]):
     if new_entries:
         content = content.replace("</urlset>", "".join(new_entries) + "</urlset>")
         SITEMAP_PATH.write_text(content, encoding="utf-8")
-        print(f"[info] {len(new_entries)} neue Rabattcode-URLs zur Sitemap hinzugefügt.")
+        print(f"[info] {len(new_entries)} neue Rabattcode-URLs zur Sitemap hinzugefuegt.")
     else:
-        print("[info] Keine neuen Sitemap-Einträge nötig.")
+        print("[info] Keine neuen Sitemap-Eintraege noetig.")
 
 
 def main():
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     rows = fetch_rows()
     today = date.today()
+    groups = group_by_firma(rows)
 
     active_slugs = []
     expired_count = 0
 
-    for row in rows:
-        slug, html, is_expired = build_page(row, today)
+    for firma, firma_rows in groups.items():
+        slug, html, all_expired = build_company_page(firma, firma_rows, today)
         out_path = OUTPUT_DIR / f"{slug}.html"
         out_path.write_text(html, encoding="utf-8")
-        if is_expired:
+        if all_expired:
             expired_count += 1
         else:
             active_slugs.append(slug)
 
     update_sitemap(active_slugs)
 
-    print(f"[done] {len(rows)} Rabattcode-Seiten generiert ({len(active_slugs)} aktiv, {expired_count} abgelaufen).")
+    print(f"[done] {len(groups)} Firmen-Seiten generiert aus {len(rows)} Zeilen ({len(active_slugs)} aktiv, {expired_count} komplett abgelaufen).")
 
 
 if __name__ == "__main__":

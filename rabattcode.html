@@ -71,7 +71,7 @@
     .card-firma { font-size: 17px; font-weight: 800; margin-bottom: 6px; }
     .card-rabatt { font-size: 14px; color: var(--text-muted); margin-bottom: 14px; }
     .card-code-row { display: flex; align-items: center; justify-content: space-between; background: var(--bg); border: 1.5px dashed var(--border); border-radius: 10px; padding: 10px 14px; margin-top: auto; }
-    .card-code { font-family: 'Courier New', monospace; font-weight: 700; font-size: 14px; letter-spacing: 0.03em; }
+    .card-code { font-weight: 700; font-size: 14px; color: var(--red); }
     .card-arrow { color: var(--red); font-weight: 700; font-size: 13px; }
 
     .empty { text-align: center; padding: 60px 20px; color: var(--text-muted); }
@@ -183,23 +183,38 @@
     return result;
   }
 
+  function groupByFirma(rows) {
+    const groups = {};
+    rows.forEach(r => {
+      const key = r.Firma.trim();
+      if (!groups[key]) groups[key] = [];
+      groups[key].push(r);
+    });
+    return groups;
+  }
+
   function renderCards(rows) {
     const grid = document.getElementById('grid');
     if (!rows.length) {
       grid.innerHTML = '<div class="empty">Aktuell keine Rabattcodes verfügbar.</div>';
       return;
     }
-    grid.innerHTML = rows.map(r => {
-      const slug = slugify(r.Firma + '-rabattcode');
-      const cat = (r.Kategorie || 'Shopping').split('/')[0];
+    const groups = groupByFirma(rows);
+    const firmen = Object.keys(groups);
+    grid.innerHTML = firmen.map(firma => {
+      const offers = groups[firma];
+      const slug = slugify(firma + '-rabattcode');
+      const cat = (offers[0].Kategorie || 'Shopping').split('/')[0];
+      const topOffer = offers[0].Rabatthoehe || '';
+      const count = offers.length;
       return `
         <a class="card" href="/rabattcode/${slug}.html">
           <span class="card-cat">${cat}</span>
-          <div class="card-firma">${r.Firma}</div>
-          <div class="card-rabatt">${r.Rabatthoehe || ''}</div>
+          <div class="card-firma">${firma}</div>
+          <div class="card-rabatt">${topOffer}${count > 1 ? ` · +${count - 1} weitere${count - 1 === 1 ? 's' : ''} Angebot${count - 1 === 1 ? '' : 'e'}` : ''}</div>
           <div class="card-code-row">
-            <span class="card-code">${r.Rabattcode || ''}</span>
-            <span class="card-arrow">Ansehen →</span>
+            <span class="card-code">Code ansehen</span>
+            <span class="card-arrow">→</span>
           </div>
         </a>`;
     }).join('');
