@@ -30,7 +30,7 @@ from pathlib import Path
 # WICHTIG: Trage hier die Publish-URL deines NEUEN Rabattcode-Sheets ein
 # (separates Sheet oder zweiter Tab im bestehenden Spreadsheet, als eigenes
 # CSV veröffentlicht über Datei → Freigeben → Im Web veröffentlichen).
-CSV_URL = "PASTE_DEINE_RABATTCODE_SHEET_CSV_URL_HIER"
+CSV_URL = "https://docs.google.com/spreadsheets/d/1fI6SVczDpWnW41LD98NDm-xdLjfd72qwTwjEnl8sR2c/edit?usp=sharing"
 SITE_URL = "https://gewinnspieleschweiz.ch"
 OUTPUT_DIR = Path("rabattcode")
 SITEMAP_PATH = Path("sitemap.xml")
