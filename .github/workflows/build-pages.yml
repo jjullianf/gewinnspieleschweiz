@@ -29,15 +29,17 @@ jobs:
       - name: Detailseiten generieren
         run: python3 generate_gewinnspiel_pages.py
 
+      - name: Rabattcode-Seiten generieren
+        run: python3 generate_rabattcode_pages.py
+
       - name: Änderungen committen (nur falls etwas neu ist)
         run: |
           git config user.name "GewinnspielSchweiz Bot"
           git config user.email "info@gewinnspieleschweiz.ch"
-          git add gewinnspiele/ sitemap.xml
+          git add gewinnspiele/ rabattcode/ sitemap.xml
           if git diff --cached --quiet; then
             echo "Keine Änderungen – nichts zu committen."
           else
-            git commit -m "Automatisch generierte Gewinnspiel-Detailseiten aktualisiert"
+            git commit -m "Automatisch generierte Detailseiten aktualisiert"
             git push
           fi
-
