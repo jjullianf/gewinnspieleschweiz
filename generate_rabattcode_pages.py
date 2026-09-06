@@ -213,7 +213,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
     h1 {{ font-size: clamp(24px, 4vw, 34px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 8px; }}
     .company-sub {{ font-size: 15px; color: var(--text-muted); margin-bottom: 32px; }}
     .company-header {{ display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }}
-    .company-logo {{ width: 52px; height: 52px; border-radius: 12px; object-fit: contain; background: #fff; border: 1.5px solid var(--border); padding: 6px; flex-shrink: 0; }}
+    .company-logo {{ width: 88px; height: 88px; border-radius: 16px; object-fit: contain; background: #fff; border: 1.5px solid var(--border); padding: 10px; flex-shrink: 0; }}
 
     .offer-card {{ background: #fff; border: 1.5px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 18px; }}
     .offer-card.is-expired {{ opacity: 0.6; }}
