@@ -121,6 +121,8 @@
 
     h1 { font-size: clamp(24px, 4vw, 34px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 8px; }
     .company-sub { font-size: 15px; color: var(--text-muted); margin-bottom: 32px; }
+    .company-header { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
+    .company-logo { width: 52px; height: 52px; border-radius: 12px; object-fit: contain; background: #fff; border: 1.5px solid var(--border); padding: 6px; flex-shrink: 0; }
 
     .offer-card { background: #fff; border: 1.5px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 18px; }
     .offer-card.is-expired { opacity: 0.6; }
@@ -223,7 +225,10 @@
     </div>
 
     <h1>Metro Boutique Rabattcode: CHF 10 Rabatt ab CHF 100 Bestellwert</h1>
-    <p class="company-sub">2 Angebote von <strong>Metro Boutique</strong> auf GewinnspielSchweiz</p>
+    <div class="company-header">
+      <img class="company-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9ZvpVkmbTHnPZQqu0CvfWbNHT-swQRHo3On90nd5YTYbNYiBcPFi9FVo-&s=10" alt="Metro Boutique Logo" loading="lazy">
+      <p class="company-sub">2 Angebote von <strong>Metro Boutique</strong> auf GewinnspielSchweiz</p>
+    </div>
 
     <div class="offer-card">
       <span class="offer-tag offer-tag-code">Mit Code</span>
