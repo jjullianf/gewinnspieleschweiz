@@ -212,6 +212,8 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 
     h1 {{ font-size: clamp(24px, 4vw, 34px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 8px; }}
     .company-sub {{ font-size: 15px; color: var(--text-muted); margin-bottom: 32px; }}
+    .company-header {{ display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }}
+    .company-logo {{ width: 52px; height: 52px; border-radius: 12px; object-fit: contain; background: #fff; border: 1.5px solid var(--border); padding: 6px; flex-shrink: 0; }}
 
     .offer-card {{ background: #fff; border: 1.5px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 18px; }}
     .offer-card.is-expired {{ opacity: 0.6; }}
@@ -314,7 +316,10 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
     </div>
 
     <h1>{title}</h1>
-    <p class="company-sub">{offer_count} Angebot{offer_plural} von <strong>{firma}</strong> auf GewinnspielSchweiz</p>
+    <div class="company-header">
+      {logo_tag}
+      <p class="company-sub">{offer_count} Angebot{offer_plural} von <strong>{firma}</strong> auf GewinnspielSchweiz</p>
+    </div>
 
     {offer_cards}
 
@@ -375,6 +380,7 @@ def build_company_page(firma, rows, today):
     any_active = False
     best_bild = ""
     best_kategorie = ""
+    best_logo = ""
     best_rabatthoehe = rows[0].get("Rabatthoehe", "").strip()
 
     for row in rows:
@@ -384,6 +390,7 @@ def build_company_page(firma, rows, today):
         gueltig_bis_raw = row.get("Gueltig_bis", "").strip()
         link = row.get("Link", "").strip()
         bild = row.get("Bild", "").strip()
+        logo = row.get("Logo", "").strip()
         beschreibung = row.get("Beschreibung", "").strip()
         zuletzt_geprueft_raw = row.get("Zuletzt_geprueft", "").strip()
 
@@ -391,6 +398,8 @@ def build_company_page(firma, rows, today):
             best_bild = bild
         if kategorie and not best_kategorie:
             best_kategorie = kategorie
+        if logo and not best_logo:
+            best_logo = logo
 
         gueltig_date = parse_date(gueltig_bis_raw)
         offer_expired = bool(gueltig_date and gueltig_date < today)
@@ -436,7 +445,8 @@ def build_company_page(firma, rows, today):
     meta_description = f"{firma} Rabattcode: {offer_count} aktuelle{'s' if offer_count == 1 else ''} Angebot{offer_plural}. Codes einfach anzeigen und beim Einkauf sparen."
     meta_description = truncate_at_word(meta_description, 155)
 
-    og_image_tag = f'<meta property="og:image" content="{best_bild}" />' if best_bild else ""
+    og_fallback_image = best_bild or best_logo
+    og_image_tag = f'<meta property="og:image" content="{og_fallback_image}" />' if og_fallback_image else ""
     hero_block = f'<div class="hero-img-wrap"><img src="{best_bild}" alt="{firma} Rabattcode"></div>' if best_bild else ""
 
     checked_dates = [parse_date(r.get("Zuletzt_geprueft", "")) for r in rows]
@@ -452,6 +462,7 @@ def build_company_page(firma, rows, today):
         faq_answer_1 = f"Ja, aktuell haben wir {active_offer_count} gepruefte Angebote fuer {firma}, siehe oben auf dieser Seite."
 
     firma_js = firma.replace('"', "'")
+    logo_tag = f'<img class="company-logo" src="{best_logo}" alt="{firma} Logo" loading="lazy">' if best_logo else ""
 
     html = PAGE_TEMPLATE.format(
         title_tag=title_tag,
@@ -475,6 +486,7 @@ def build_company_page(firma, rows, today):
         generated_date=today.strftime("%d.%m.%Y"),
         faq_answer_1=faq_answer_1,
         firma_js=firma_js,
+        logo_tag=logo_tag,
     )
     return slug, html, all_expired
 
@@ -527,7 +539,10 @@ def update_overview_page(groups, today):
         top_offer = rows[0].get("Rabatthoehe", "").strip()
         count = len(rows)
         extra = f" · +{count - 1} weitere{'s' if count - 1 == 1 else ''} Angebot{'e' if count - 1 != 1 else ''}" if count > 1 else ""
+        logo_url = next((r.get("Logo", "").strip() for r in rows if r.get("Logo", "").strip()), "")
+        logo_html = f'<img class="card-logo" src="{logo_url}" alt="{firma} Logo" loading="lazy">' if logo_url else ""
         cards_html.append(f"""<a class="card" href="/rabattcode/{slug}.html">
+      {logo_html}
       <span class="card-cat">{cat}</span>
       <div class="card-firma">{firma}</div>
       <div class="card-rabatt">{top_offer}{extra}</div>
