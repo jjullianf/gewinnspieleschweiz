@@ -31,6 +31,7 @@ CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR6N_-IWV5yI4NoSVvHrK
 SITE_URL = "https://gewinnspieleschweiz.ch"
 OUTPUT_DIR = Path("rabattcode")
 SITEMAP_PATH = Path("sitemap.xml")
+OVERVIEW_PATH = Path("rabattcode.html")
 LOCAL_CSV_FALLBACK = Path("Rabattcodes_-_Sheet1.csv")
 
 
@@ -507,6 +508,92 @@ def update_sitemap(active_slugs):
         print("[info] Keine neuen Sitemap-Eintraege noetig.")
 
 
+def update_overview_page(groups, today):
+    """Rendert die Firmen-Karten SERVERSEITIG in rabattcode.html, damit Google
+    beim ersten Crawl echten Content sieht statt einer leeren, JS-gerenderten
+    Seite (gleiches Prinzip wie beim Fix der urspruenglichen Startseite)."""
+    if not OVERVIEW_PATH.exists():
+        print("[warn] rabattcode.html nicht gefunden, ueberspringe Overview-Update.")
+        return
+
+    content = OVERVIEW_PATH.read_text(encoding="utf-8")
+
+    # --- Statische Karten bauen ---
+    cards_html = []
+    list_items_schema = []
+    for firma, rows in sorted(groups.items()):
+        slug = slugify(f"{firma}-rabattcode")
+        cat = (rows[0].get("Kategorie", "Shopping").split("/")[0]) or "Shopping"
+        top_offer = rows[0].get("Rabatthoehe", "").strip()
+        count = len(rows)
+        extra = f" · +{count - 1} weitere{'s' if count - 1 == 1 else ''} Angebot{'e' if count - 1 != 1 else ''}" if count > 1 else ""
+        cards_html.append(f"""<a class="card" href="/rabattcode/{slug}.html">
+      <span class="card-cat">{cat}</span>
+      <div class="card-firma">{firma}</div>
+      <div class="card-rabatt">{top_offer}{extra}</div>
+      <div class="card-code-row">
+        <span class="card-code">Code ansehen</span>
+        <span class="card-arrow">&rarr;</span>
+      </div>
+    </a>""")
+        list_items_schema.append(
+            f'{{ "@type": "ListItem", "position": {len(list_items_schema)+1}, '
+            f'"url": "{SITE_URL}/rabattcode/{slug}.html", "name": "{firma} Rabattcode" }}'
+        )
+
+    static_grid = "\n".join(cards_html) if cards_html else '<div class="empty">Aktuell keine Rabattcodes verfuegbar.</div>'
+
+    content = re.sub(
+        r"<!--STATIC_GRID_START-->.*?<!--STATIC_GRID_END-->",
+        f"<!--STATIC_GRID_START-->\n{static_grid}\n<!--STATIC_GRID_END-->",
+        content,
+        flags=re.DOTALL,
+    )
+
+    # --- Schema (ItemList + FAQPage) bauen ---
+    schema_block = f"""<script type="application/ld+json">
+  {{
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Alle Rabattcodes Schweiz",
+    "itemListElement": [{", ".join(list_items_schema)}]
+  }}
+  </script>
+  <script type="application/ld+json">
+  {{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {{
+        "@type": "Question",
+        "name": "Wie funktionieren die Rabattcodes auf GewinnspielSchweiz?",
+        "acceptedAnswer": {{ "@type": "Answer", "text": "Jede Firma hat eine eigene Seite mit allen aktuellen Angeboten. Ein Klick auf 'Code anzeigen' oeffnet die Firmen-Website und zeigt gleichzeitig den Code an, den du beim Checkout einfuegst." }}
+      }},
+      {{
+        "@type": "Question",
+        "name": "Sind die Rabattcodes kostenlos nutzbar?",
+        "acceptedAnswer": {{ "@type": "Answer", "text": "Ja, alle hier gelisteten Codes sind kostenlos, es gibt keine versteckten Gebuehren. Manche Angebote setzen eine Newsletter-Anmeldung bei der jeweiligen Firma voraus, das steht immer klar dabei." }}
+      }},
+      {{
+        "@type": "Question",
+        "name": "Wie oft kommen neue Rabattcodes dazu?",
+        "acceptedAnswer": {{ "@type": "Answer", "text": "Wir ergaenzen laufend neue Codes und pruefen bestehende regelmaessig auf Gueltigkeit. Das Datum der letzten Pruefung steht bei jedem Angebot auf der jeweiligen Firmenseite." }}
+      }}
+    ]
+  }}
+  </script>"""
+
+    content = re.sub(
+        r"<!--SCHEMA_MARKERS_START-->.*?<!--SCHEMA_MARKERS_END-->",
+        f"<!--SCHEMA_MARKERS_START-->\n{schema_block}\n  <!--SCHEMA_MARKERS_END-->",
+        content,
+        flags=re.DOTALL,
+    )
+
+    OVERVIEW_PATH.write_text(content, encoding="utf-8")
+    print(f"[info] rabattcode.html mit {len(groups)} statischen Firmen-Karten aktualisiert.")
+
+
 def main():
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     rows = fetch_rows()
@@ -526,6 +613,7 @@ def main():
             active_slugs.append(slug)
 
     update_sitemap(active_slugs)
+    update_overview_page(groups, today)
 
     print(f"[done] {len(groups)} Firmen-Seiten generiert aus {len(rows)} Zeilen ({len(active_slugs)} aktiv, {expired_count} komplett abgelaufen).")
 
