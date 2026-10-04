@@ -810,4 +810,16 @@
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
+  <url>
+    <loc>https://gewinnspieleschweiz.ch/blog/weihnachtsgewinnspiele-schweiz.html</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gewinnspieleschweiz.ch/blog/adventskalender-gewinnspiele-schweiz.html</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
